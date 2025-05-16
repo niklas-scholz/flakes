@@ -6,7 +6,7 @@
     dock = {
       autohide = true;
       # Whether to group windows by application in Mission Control’s Exposé. The default is false.
-      system.defaults.dock.expose-group-apps = true;
+      expose-group-apps = true;
 
     };
   };

@@ -2,6 +2,6 @@
 {
   imports = [
     ./os-general.nix
-    # ./finder.nix
+    ./finder.nix
   ];
 }
