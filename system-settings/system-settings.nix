@@ -3,5 +3,6 @@
   imports = [
     ./os-general.nix
     ./finder.nix
+    ./screenshots.nix
   ];
 }
