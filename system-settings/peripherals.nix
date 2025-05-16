@@ -2,6 +2,7 @@
 {
   imports = [
     ./trackpad.nix
+    ./keyboard.nix
   ];
 
 }
