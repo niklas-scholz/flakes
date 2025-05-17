@@ -7,4 +7,5 @@
   pkgs.lazygit
   pkgs.starship
   pkgs.vim
+  pkgs.neovim
 ]

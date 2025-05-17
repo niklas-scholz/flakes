@@ -15,4 +15,5 @@
   pkgs.delta
   pkgs.ripgrep
   pkgs.thefuck
+  pkgs.silver-searcher
 ]
