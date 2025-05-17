@@ -17,6 +17,7 @@
       configuration =
         { pkgs, ... }:
         {
+          security.pam.enableSudoTouchIdAuth = true;
           # Necessary for using flakes on this system.
           nix.settings.experimental-features = "nix-command flakes";
 
@@ -31,9 +32,8 @@
           nixpkgs.hostPlatform = "aarch64-darwin";
         };
     in
-    # system = import ./system-settings.nix { inherit pkgs; };
     {
-      darwinConfigurations."general" = nix-darwin.lib.darwinSystem {
+      darwinConfigurations."MacBook-Pro" = nix-darwin.lib.darwinSystem {
         modules = [
           configuration
           ./modules
