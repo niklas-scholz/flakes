@@ -1,5 +1,6 @@
+# nix-darwin-base/flake.nix
 {
-  description = "Nik's nix-darwin system flake";
+  description = "Nik's nix-darwin base flake";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-24.11-darwin";
@@ -10,48 +11,36 @@
   outputs =
     inputs@{
       self,
-      nix-darwin,
       nixpkgs,
+      nix-darwin,
+      ...
     }:
     let
-      baseDarwinModule =
+      baseModule =
         { pkgs, ... }:
         {
-          # TODO: Fixme
           security.pam.enableSudoTouchIdAuth = true;
-          # Necessary for using flakes on this system.
           nix.settings.experimental-features = "nix-command flakes";
-
-          # Set Git commit hash for darwin-version.
           system.configurationRevision = self.rev or self.dirtyRev or null;
-
-          # Used for backwards compatibility, please read the changelog before changing.
-          # $ darwin-rebuild changelog
           system.stateVersion = 5;
-
-          # The platform the configuration will be used on.
           nixpkgs.hostPlatform = "aarch64-darwin";
 
+          # Add your shared config here or in ./modules/*
         };
-      sharedModules = builtins.attrValues (import ./modules);
     in
     {
-      # Export this module for reuse
-      # nixosModules.default = baseDarwinModule;
+      # Export baseModule to be reused by other flakes
+      nixosModules.default = baseModule;
 
-      nixosModules.default =
-        { pkgs, ... }@args:
-        {
-          imports = [
-            baseDarwinModule
-          ] ++ sharedModules;
-        };
+      # Optionally export modules as attrset for convenience
+      modules = import ./modules;
 
-      # darwinConfigurations."MacBook-Pro" = nix-darwin.lib.darwinSystem {
-      #   modules = [
-      #     baseDarwinModule
-      #     ./modules
-      #   ];
-      # };
+      # You can also export a complete darwinConfiguration for testing base only
+      darwinConfigurations."base-MacBook-Pro" = nix-darwin.lib.darwinSystem {
+        system = "aarch64-darwin";
+        modules = [
+          baseModule
+        ] ++ builtins.attrValues (import ./modules);
+      };
     };
 }
