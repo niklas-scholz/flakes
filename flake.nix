@@ -20,9 +20,6 @@
           # Necessary for using flakes on this system.
           nix.settings.experimental-features = "nix-command flakes";
 
-          # Enable alternative shell support in nix-darwin.
-          # programs.fish.enable = true;
-
           # Set Git commit hash for darwin-version.
           system.configurationRevision = self.rev or self.dirtyRev or null;
 
@@ -36,12 +33,9 @@
     in
     # system = import ./system-settings.nix { inherit pkgs; };
     {
-      # Build darwin flake using:
-      # $ darwin-rebuild build --flake .#MacBook-Pro-2
       darwinConfigurations."general" = nix-darwin.lib.darwinSystem {
         modules = [
           configuration
-          ./system
           ./modules
         ];
       };
