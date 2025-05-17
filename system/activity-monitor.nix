@@ -7,7 +7,7 @@
     IconType = 5;
     # Show all processes in Activity Monitor
     ShowCategory = 100;
-    # Sort Activity Monitor results by CPU usage decending
+    # Sort Activity Monitor results by CPU usage descending
     SortColumn = "CPUUsage";
     SortDirection = 0;
   };

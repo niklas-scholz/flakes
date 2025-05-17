@@ -31,16 +31,6 @@
             pkgs.nixfmt-rfc-style
 
           ];
-          # system = {
-          #   defaults = {
-          #     # TODO: Fixme
-          #     NSWindowShouldDragOnGesture = true;
-          #
-          #     # For some reason, mission control doesn’t like that AeroSpace puts a lot of windows in the bottom right corner of the screen. Mission control shows windows too small even there is enough space to show them bigger.
-          #     # TODO: Fixme
-          #     # com.apple.dock.expose-group-apps = true;
-          #   };
-          # };
           # Necessary for using flakes on this system.
           nix.settings.experimental-features = "nix-command flakes";
 
@@ -65,7 +55,7 @@
       darwinConfigurations."general" = nix-darwin.lib.darwinSystem {
         modules = [
           configuration
-          ./system-settings/system-settings.nix
+          ./system/defaults.nix
         ];
       };
     };

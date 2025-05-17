@@ -1,5 +1,14 @@
 { pkgs, ... }:
 {
+  imports = [
+    ./peripherals/defaults.nix
+    ./finder.nix
+    ./screenshots.nix
+    ./activity-monitor.nix
+  ];
+  # Disable quarantine for downloaded applications
+  system.defaults.LaunchServices.LSQuarantine = false;
+
   system.defaults.NSGlobalDomain = {
     AppleShowScrollBars = "Always";
 
@@ -11,5 +20,8 @@
     NSAutomaticQuoteSubstitutionEnabled = false;
     # Disable auto-correct
     NSAutomaticSpellingCorrectionEnabled = false;
+
+    # For some reason, mission control doesn’t like that AeroSpace puts a lot of windows in the bottom right corner of the screen. Mission control shows windows too small even there is enough space to show them bigger.
+    NSWindowShouldDragOnGesture = true;
   };
 }
