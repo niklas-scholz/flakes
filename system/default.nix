@@ -1,7 +1,7 @@
 { pkgs, ... }:
 {
   imports = [
-    ./peripherals/defaults.nix
+    ./peripherals/default.nix
     ./finder.nix
     ./screenshots.nix
     ./activity-monitor.nix

@@ -55,7 +55,7 @@
       darwinConfigurations."general" = nix-darwin.lib.darwinSystem {
         modules = [
           configuration
-          ./system/defaults.nix
+          ./system
         ];
       };
     };
