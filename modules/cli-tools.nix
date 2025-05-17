@@ -15,5 +15,4 @@
   pkgs.delta
   pkgs.ripgrep
   pkgs.thefuck
-  pkgs.zsh-syntax-highlighting
 ]
