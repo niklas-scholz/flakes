@@ -1,6 +1,5 @@
-# nix-darwin-base/flake.nix
 {
-  description = "Nik's nix-darwin base flake";
+  description = "Nik's nix-darwin system flake";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-24.11-darwin";
@@ -11,36 +10,35 @@
   outputs =
     inputs@{
       self,
-      nixpkgs,
       nix-darwin,
-      ...
+      nixpkgs,
     }:
     let
-      baseModule =
+      configuration =
         { pkgs, ... }:
         {
+          # TODO: Fixme
           security.pam.enableSudoTouchIdAuth = true;
+          # Necessary for using flakes on this system.
           nix.settings.experimental-features = "nix-command flakes";
-          system.configurationRevision = self.rev or self.dirtyRev or null;
-          system.stateVersion = 5;
-          nixpkgs.hostPlatform = "aarch64-darwin";
 
-          # Add your shared config here or in ./modules/*
+          # Set Git commit hash for darwin-version.
+          system.configurationRevision = self.rev or self.dirtyRev or null;
+
+          # Used for backwards compatibility, please read the changelog before changing.
+          # $ darwin-rebuild changelog
+          system.stateVersion = 5;
+
+          # The platform the configuration will be used on.
+          nixpkgs.hostPlatform = "aarch64-darwin";
         };
     in
     {
-      # Export baseModule to be reused by other flakes
-      nixosModules.default = baseModule;
-
-      # Optionally export modules as attrset for convenience
-      modules = import ./modules;
-
-      # You can also export a complete darwinConfiguration for testing base only
-      darwinConfigurations."base-MacBook-Pro" = nix-darwin.lib.darwinSystem {
-        system = "aarch64-darwin";
+      darwinConfigurations."MacBook-Pro" = nix-darwin.lib.darwinSystem {
         modules = [
-          baseModule
-        ] ++ builtins.attrValues (import ./modules);
+          configuration
+          ./modules
+        ];
       };
     };
 }
