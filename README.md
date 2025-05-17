@@ -1,5 +1,5 @@
 # How to execute
 
 ```
-darwin-rebuild switch --flake flake.nix#general
+darwin-rebuild switch --flake .
 ```
