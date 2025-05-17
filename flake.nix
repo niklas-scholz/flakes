@@ -17,20 +17,6 @@
       configuration =
         { pkgs, ... }:
         {
-          # List packages installed in system profile. To search by name, run:
-          # $ nix-env -qaP | grep wget
-          environment.systemPackages = [
-            pkgs.ack
-            pkgs.bat
-            pkgs.chezmoi
-            pkgs.deno
-            pkgs.dust
-            pkgs.fd
-            pkgs.fzf
-            pkgs.alacritty
-            pkgs.nixfmt-rfc-style
-
-          ];
           # Necessary for using flakes on this system.
           nix.settings.experimental-features = "nix-command flakes";
 
@@ -56,6 +42,7 @@
         modules = [
           configuration
           ./system
+          ./modules
         ];
       };
     };
