@@ -14,7 +14,7 @@
       nixpkgs,
     }:
     let
-      configuration =
+      baseDarwinModule =
         { pkgs, ... }:
         {
           # TODO: Fixme
@@ -31,14 +31,27 @@
 
           # The platform the configuration will be used on.
           nixpkgs.hostPlatform = "aarch64-darwin";
+
         };
+      sharedModules = builtins.attrValues (import ./modules);
     in
     {
-      darwinConfigurations."MacBook-Pro" = nix-darwin.lib.darwinSystem {
-        modules = [
-          configuration
-          ./modules
-        ];
-      };
+      # Export this module for reuse
+      # nixosModules.default = baseDarwinModule;
+
+      nixosModules.default =
+        { pkgs, ... }@args:
+        {
+          imports = [
+            baseDarwinModule
+          ] ++ sharedModules;
+        };
+
+      # darwinConfigurations."MacBook-Pro" = nix-darwin.lib.darwinSystem {
+      #   modules = [
+      #     baseDarwinModule
+      #     ./modules
+      #   ];
+      # };
     };
 }

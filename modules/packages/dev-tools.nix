@@ -8,4 +8,7 @@
   pkgs.starship
   pkgs.vim
   pkgs.neovim
+  pkgs.tmux
+  pkgs.devpod
+  pkgs.xplr
 ]
