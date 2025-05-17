@@ -5,4 +5,15 @@
   pkgs.fd
   pkgs.fzf
   pkgs.dust
+  pkgs.zoxide
+  pkgs.wget
+  pkgs.tree
+  pkgs.tldr
+  pkgs.lsd
+  pkgs.less
+  pkgs.htop
+  pkgs.delta
+  pkgs.ripgrep
+  pkgs.thefuck
+  pkgs.zsh-syntax-highlighting
 ]
