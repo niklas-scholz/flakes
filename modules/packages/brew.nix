@@ -23,7 +23,6 @@
     "bettertouchtool"
     "dbeaver-community"
     "firefox"
-    "font-fira-code"
     "ghostty"
     "google-chrome"
     "karabiner-elements"
