@@ -37,7 +37,13 @@
       darwinConfigurations."MacBook-Pro" = nix-darwin.lib.darwinSystem {
         modules = [
           configuration
-          ./modules
+          ./hosts/private.nix
+        ];
+      };
+      darwinConfigurations."MacBook-Pro-nik" = nix-darwin.lib.darwinSystem {
+        modules = [
+          configuration
+          ./hosts/work.nix
         ];
       };
     };
