@@ -6,7 +6,22 @@
   ];
 
   homebrew = {
-    brews = [ "cowsay" ];
+    brews = [
+      "oven-sh/bun/bun"
+    ];
+    casks = [
+      "canva"
+      "gimp"
+      "keepassxc"
+      "imageoptim"
+      "insomnia"
+      "libreoffice"
+      "nordvpn"
+      "spotify"
+      "vlc"
+      "whatsapp"
+      "zoom"
+    ];
   };
 
 }
