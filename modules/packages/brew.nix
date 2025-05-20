@@ -20,6 +20,7 @@
   casks = [
     "1password"
     "arc"
+    "aerospace"
     "bettertouchtool"
     "dbeaver-community"
     "firefox"
@@ -28,5 +29,6 @@
     "karabiner-elements"
     "raycast"
     "stretchly"
+    "obsidian"
   ];
 }
