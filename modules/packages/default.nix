@@ -1,8 +1,16 @@
 { pkgs, ... }:
 {
-  environment.systemPackages =
-    (import ./cli-tools.nix { inherit pkgs; }) ++ (import ./dev-tools.nix { inherit pkgs; });
+  imports = [
+    ./browsers.nix
+    ./cli-tools.nix
+    ./dev-tools.nix
+    ./others.nix
+    ./supercharge.nix
+  ];
 
-  homebrew = (import ./brew.nix { inherit pkgs; });
+  homebrew = {
+    enable = true;
+    onActivation.cleanup = "uninstall";
+  };
 
 }
