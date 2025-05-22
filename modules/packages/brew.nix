@@ -13,6 +13,7 @@
     "postgresql@14"
     "pyenv"
     "terraformer"
+    "yazi"
     "tfenv"
     "zsh"
     "zsh-syntax-highlighting"
