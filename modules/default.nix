@@ -3,15 +3,6 @@
   imports = [
     ./system
     ./packages
+    ./fonts
   ];
-
-  fonts.packages = [
-    (pkgs.nerdfonts.override {
-      fonts = [
-        "FiraCode"
-        "Meslo"
-      ];
-    })
-  ];
-
 }
