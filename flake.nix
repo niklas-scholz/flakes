@@ -2,8 +2,8 @@
   description = "Nik's nix-darwin system flake";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-24.11-darwin";
-    nix-darwin.url = "github:LnL7/nix-darwin/nix-darwin-24.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-25.05-darwin";
+    nix-darwin.url = "github:LnL7/nix-darwin/nix-darwin-25.05";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
   };
 
@@ -17,8 +17,8 @@
       configuration =
         { pkgs, ... }:
         {
-          # TODO: Fixme
-          security.pam.enableSudoTouchIdAuth = true;
+          system.primaryUser = "niklasscholz";
+          security.pam.services.sudo_local.touchIdAuth = true;
           # Necessary for using flakes on this system.
           nix.settings.experimental-features = "nix-command flakes";
 
