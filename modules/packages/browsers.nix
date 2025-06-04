@@ -6,6 +6,7 @@
       "firefox"
       "firefox@developer-edition"
       "google-chrome"
+      "zen"
     ];
   };
 }

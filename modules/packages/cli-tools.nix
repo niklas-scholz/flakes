@@ -17,11 +17,11 @@
     pkgs.ripgrep
     pkgs.thefuck
     pkgs.silver-searcher
+    pkgs.yazi
   ];
 
   homebrew = {
     brews = [
-      "yazi"
       "zsh"
       "zsh-syntax-highlighting"
     ];

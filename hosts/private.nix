@@ -6,9 +6,6 @@
   ];
 
   homebrew = {
-    brews = [
-      "oven-sh/bun/bun"
-    ];
     casks = [
       "canva"
       "gimp"

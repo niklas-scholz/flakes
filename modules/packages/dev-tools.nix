@@ -3,6 +3,7 @@
   environment.systemPackages = [
     pkgs.chezmoi
     pkgs.deno
+    pkgs.bun
     pkgs.alacritty
     pkgs.nixfmt-rfc-style
     pkgs.lazygit
@@ -12,6 +13,8 @@
     pkgs.tmux
     pkgs.devpod
     pkgs.xplr
+    pkgs.terraformer
+    pkgs.pipx
   ];
 
   homebrew = {
@@ -23,11 +26,8 @@
     brews = [
       "git"
       "nvm"
-      "pipx"
-      "pnpm"
       "postgresql@14"
       "pyenv"
-      "terraformer"
       "tfenv"
     ];
   };
