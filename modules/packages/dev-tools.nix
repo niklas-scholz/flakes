@@ -15,6 +15,9 @@
     pkgs.xplr
     pkgs.terraformer
     pkgs.pipx
+    pkgs.gh
+    pkgs.nodejs
+    pkgs.corepack
   ];
 
   homebrew = {
@@ -25,7 +28,6 @@
 
     brews = [
       "git"
-      "nvm"
       "postgresql@14"
       "pyenv"
       "tfenv"
