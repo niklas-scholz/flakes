@@ -6,6 +6,7 @@
     ./screenshots.nix
     ./activity-monitor.nix
     ./dock.nix
+    # ./zsh.nix
   ];
   # Disable quarantine for downloaded applications
   system.defaults.LaunchServices.LSQuarantine = false;

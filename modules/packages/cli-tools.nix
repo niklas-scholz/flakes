@@ -19,12 +19,4 @@
     pkgs.silver-searcher
     pkgs.yazi
   ];
-
-  homebrew = {
-    brews = [
-      "zsh"
-      "zsh-syntax-highlighting"
-    ];
-  };
-
 }
