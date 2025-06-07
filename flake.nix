@@ -48,8 +48,11 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.niklasscholz = {
 
+            users.users.niklasscholz.home = "/Users/niklasscholz";
+            home-manager.backupFileExtension = "backup";
+
+            home-manager.users.niklasscholz = {
               home.username = "niklasscholz";
               home.stateVersion = "25.05";
               home.enableNixpkgsReleaseCheck = false;
@@ -112,12 +115,16 @@
                   # The command that gets executed as the source for skim for the ALT-C keybinding
                   changeDirWidgetCommand = "fd --type=d --hidden --strip-cwd-prefix --exclude .git";
                 };
-
+                zoxide = {
+                  enable = true;
+                  enableZshIntegration = true;
+                };
+                yazi = {
+                  enable = true;
+                  enableZshIntegration = true;
+                };
               };
-
             };
-            users.users.niklasscholz.home = "/Users/niklasscholz";
-            home-manager.backupFileExtension = "backup";
           }
         ];
       };
