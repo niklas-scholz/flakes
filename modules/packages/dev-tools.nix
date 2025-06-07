@@ -18,6 +18,8 @@
     pkgs.gh
     pkgs.nodejs
     pkgs.corepack
+    pkgs.git
+    pkgs.tenv
   ];
 
   homebrew = {
@@ -25,13 +27,5 @@
       "dbeaver-community"
       "ghostty"
     ];
-
-    brews = [
-      "git"
-      "postgresql@14"
-      "pyenv"
-      "tfenv"
-    ];
   };
-
 }
