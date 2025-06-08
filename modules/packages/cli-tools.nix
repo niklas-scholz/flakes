@@ -18,13 +18,6 @@
     pkgs.thefuck
     pkgs.silver-searcher
     pkgs.yazi
+    pkgs.starship
   ];
-
-  homebrew = {
-    brews = [
-      "zsh"
-      "zsh-syntax-highlighting"
-    ];
-  };
-
 }

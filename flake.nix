@@ -5,6 +5,9 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-25.05-darwin";
     nix-darwin.url = "github:LnL7/nix-darwin/nix-darwin-25.05";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+
+    home-manager.url = "github:nix-community/home-manager";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
@@ -12,6 +15,7 @@
       self,
       nix-darwin,
       nixpkgs,
+      home-manager,
     }:
     let
       configuration =
@@ -33,13 +37,29 @@
           nixpkgs.hostPlatform = "aarch64-darwin";
 
           nixpkgs.config.allowUnfree = true;
+
         };
+      username = "niklasscholz";
+
     in
     {
       darwinConfigurations."MacBook-Pro" = nix-darwin.lib.darwinSystem {
         modules = [
           configuration
           ./hosts/private.nix
+          home-manager.darwinModules.home-manager
+          {
+
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+
+            users.users.${username}.home = "/Users/${username}";
+            home-manager.backupFileExtension = "backup";
+
+            home-manager.users.${username} = import ./home {
+              username = username;
+            };
+          }
         ];
       };
       darwinConfigurations."MacBook-Pro-nik" = nix-darwin.lib.darwinSystem {
