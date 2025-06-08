@@ -37,7 +37,10 @@
           nixpkgs.hostPlatform = "aarch64-darwin";
 
           nixpkgs.config.allowUnfree = true;
+
         };
+      username = "niklasscholz";
+
     in
     {
       darwinConfigurations."MacBook-Pro" = nix-darwin.lib.darwinSystem {
@@ -50,10 +53,12 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
 
-            users.users.niklasscholz.home = "/Users/niklasscholz";
+            users.users.${username}.home = "/Users/${username}";
             home-manager.backupFileExtension = "backup";
 
-            home-manager.users.niklasscholz = ./home.nix;
+            home-manager.users.${username} = import ./home.nix {
+              username = username;
+            };
           }
         ];
       };
