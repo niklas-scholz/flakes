@@ -77,6 +77,15 @@
 
                   initContent = ''
                     bindkey '\eg' fzf-cd-widget
+
+                    FZF_GIT_SH="$HOME/.config/zsh/fzf-git.sh"
+                    if [ ! -f "$FZF_GIT_SH" ]; then
+                      echo "Downloading fzf-git.sh to \$FZF_GIT_SH"
+                      mkdir -p "$(dirname "$FZF_GIT_SH")"
+                      curl -fsSL https://raw.githubusercontent.com/junegunn/fzf-git.sh/main/fzf-git.sh -o "$FZF_GIT_SH"
+                    fi
+
+                    source "$FZF_GIT_SH"
                   '';
                   shellAliases = {
                     vim = "nvim";
