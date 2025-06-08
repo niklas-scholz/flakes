@@ -56,7 +56,7 @@
             users.users.${username}.home = "/Users/${username}";
             home-manager.backupFileExtension = "backup";
 
-            home-manager.users.${username} = import ./home.nix {
+            home-manager.users.${username} = import ./home {
               username = username;
             };
           }
