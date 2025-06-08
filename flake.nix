@@ -86,6 +86,15 @@
                     fi
 
                     source "$FZF_GIT_SH"
+
+                    # "**" command syntax
+                    _fzf_compgen_path() {
+                      fd --hidden --follow . "$1"
+                    }
+                    # "**" command syntax (for directories only)
+                    _fzf_compgen_dir() {
+                      fd --type d --hidden --follow . "$1"
+                    }
                   '';
                   shellAliases = {
                     vim = "nvim";
@@ -108,6 +117,8 @@
                     find = "fd";
                     lz = "lazygit";
                     cd = "z";
+
+                    gcob = "_fzf_git_branches --no-multi | xargs git checkout";
                   };
 
                 };
