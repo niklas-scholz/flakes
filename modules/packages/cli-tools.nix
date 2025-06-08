@@ -18,5 +18,6 @@
     pkgs.thefuck
     pkgs.silver-searcher
     pkgs.yazi
+    pkgs.starship
   ];
 }
