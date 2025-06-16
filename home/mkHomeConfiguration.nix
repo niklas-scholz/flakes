@@ -1,7 +1,7 @@
 {
   username,
   nixpkgs,
-  configs,
+  additionalConfigs,
   ...
 }:
 let
@@ -23,6 +23,6 @@ in
   home-manager.users.${username} = nixpkgs.lib.mkMerge [
     standardConfig
     shellConfig
-    configs
+    additionalConfigs
   ];
 }

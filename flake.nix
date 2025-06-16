@@ -40,12 +40,7 @@
 
         };
       username = "niklasscholz";
-      # general = import ./home {
-      #   username = username;
-      # };
-      workConfig = import ./home/work.nix;
       mkHomeConfiguration = import ./home/mkHomeConfiguration.nix;
-
     in
     {
       darwinConfigurations."MacBook-Pro" = nix-darwin.lib.darwinSystem {
@@ -75,7 +70,7 @@
           (mkHomeConfiguration {
             inherit username;
             inherit nixpkgs;
-            configs = workConfig;
+            additionalConfigs = import ./home/work.nix;
           })
         ];
       };
