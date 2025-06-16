@@ -40,7 +40,10 @@
 
         };
       username = "niklasscholz";
-
+      general = import ./home {
+        username = username;
+      };
+      workConfig = import ./home/work.nix;
     in
     {
       darwinConfigurations."MacBook-Pro" = nix-darwin.lib.darwinSystem {
@@ -62,10 +65,24 @@
           }
         ];
       };
-      darwinConfigurations."MacBook-Pro-nik" = nix-darwin.lib.darwinSystem {
+      darwinConfigurations."Niklass-MacBook-Pro" = nix-darwin.lib.darwinSystem {
         modules = [
           configuration
           ./hosts/work.nix
+          home-manager.darwinModules.home-manager
+          {
+
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+
+            users.users.${username}.home = "/Users/${username}";
+            home-manager.backupFileExtension = "backup";
+
+            home-manager.users.${username} = nixpkgs.lib.mkMerge [
+              general
+              workConfig
+            ];
+          }
         ];
       };
     };
