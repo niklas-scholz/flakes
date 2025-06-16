@@ -1,8 +1,8 @@
 {
   username,
-  home-manager,
   nixpkgs,
   configs,
+  ...
 }:
 let
   standardConfig = {
@@ -10,8 +10,9 @@ let
     home.stateVersion = "25.05";
     home.enableNixpkgsReleaseCheck = false;
   };
+  shellConfig = import ./shell.nix;
 in
-home-manager.darwinModules.home-manager {
+{
 
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
@@ -21,6 +22,7 @@ home-manager.darwinModules.home-manager {
 
   home-manager.users.${username} = nixpkgs.lib.mkMerge [
     standardConfig
+    shellConfig
     configs
   ];
 }
