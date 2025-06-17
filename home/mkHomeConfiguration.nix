@@ -1,7 +1,7 @@
 {
   username,
   nixpkgs,
-  additionalConfigs,
+  additionalConfigs ? [ ],
   ...
 }:
 let
@@ -20,9 +20,11 @@ in
   users.users.${username}.home = "/Users/${username}";
   home-manager.backupFileExtension = "backup";
 
-  home-manager.users.${username} = nixpkgs.lib.mkMerge [
-    standardConfig
-    shellConfig
-    additionalConfigs
-  ];
+  home-manager.users.${username} = nixpkgs.lib.mkMerge (
+    [
+      standardConfig
+      shellConfig
+    ]
+    ++ additionalConfigs
+  );
 }

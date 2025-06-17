@@ -48,18 +48,10 @@
           configuration
           ./hosts/private.nix
           home-manager.darwinModules.home-manager
-          {
-
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-
-            users.users.${username}.home = "/Users/${username}";
-            home-manager.backupFileExtension = "backup";
-
-            home-manager.users.${username} = import ./home {
-              username = username;
-            };
-          }
+          (mkHomeConfiguration {
+            inherit username;
+            inherit nixpkgs;
+          })
         ];
       };
       darwinConfigurations."Niklass-MacBook-Pro" = nix-darwin.lib.darwinSystem {
@@ -70,7 +62,10 @@
           (mkHomeConfiguration {
             inherit username;
             inherit nixpkgs;
-            additionalConfigs = import ./home/work.nix;
+            additionalConfigs = [
+              import
+              ./home/work.nix
+            ];
           })
         ];
       };
