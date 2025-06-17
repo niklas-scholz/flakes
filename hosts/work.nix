@@ -6,7 +6,6 @@
   ];
 
   environment.systemPackages = [
-    pkgs.auth0-cli
     pkgs.pyenv
     pkgs.pipx
   ];
