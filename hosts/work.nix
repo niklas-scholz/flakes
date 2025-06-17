@@ -5,9 +5,14 @@
     ../modules
   ];
 
+  environment.systemPackages = [
+    pkgs.pyenv
+    pkgs.pipx
+  ];
+
   homebrew = {
     brews = [ ];
-    casks = [ "slack" ];
+    casks = [ ];
   };
 
 }

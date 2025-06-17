@@ -19,5 +19,6 @@
     pkgs.silver-searcher
     pkgs.yazi
     pkgs.starship
+    pkgs.k9s
   ];
 }
