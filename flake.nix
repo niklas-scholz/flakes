@@ -1,5 +1,5 @@
 {
-  description = "Nik's nix-darwin system flake";
+  description = "Nik's minimal nix-darwin config library for shared use";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-25.05-darwin";
@@ -19,7 +19,10 @@
     }:
     let
       mkConfiguration =
-        { username, ... }:
+        {
+          username,
+          hostPlatform ? "aarch64-darwin",
+        }:
         { pkgs, ... }:
         {
           system.primaryUser = username;
@@ -35,7 +38,7 @@
           system.stateVersion = 5;
 
           # The platform the configuration will be used on.
-          nixpkgs.hostPlatform = "aarch64-darwin";
+          nixpkgs.hostPlatform = hostPlatform;
 
           nixpkgs.config.allowUnfree = true;
 
@@ -49,23 +52,21 @@
           ...
         }:
         nix-darwin.lib.darwinSystem {
-          modules = [
-            (mkConfiguration { inherit username; })
-            home-manager.darwinModules.home-manager
-            (mkHomeConfiguration {
+          modules =
+            [
+              (mkConfiguration { inherit username; })
+              minimalModules
+            ]
+            ++ (mkHomeConfiguration {
+              inherit home-manager;
               inherit username;
               inherit nixpkgs;
             })
-            minimalModules
-          ] ++ extraModules;
+            ++ extraModules;
         };
-      # import ./darwin/mkDarwinConfiguration.nix
-      #   { inherit inputs; };
     in
     {
-      mkConfiguration = mkConfiguration;
-      mkHomeConfiguration = mkHomeConfiguration;
-      minimalModules = minimalModules;
-      mkDarwinConfiguration = mkDarwinConfiguration;
+      inherit mkDarwinConfiguration;
+      inherit mkHomeConfiguration;
     };
 }
