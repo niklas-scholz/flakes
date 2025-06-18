@@ -18,8 +18,8 @@
       home-manager,
     }:
     let
-      configuration =
-        { pkgs, ... }:
+      mkConfiguration =
+        { pkgs, username, ... }:
         {
           system.primaryUser = "niklasscholz";
           security.pam.services.sudo_local.touchIdAuth = true;
@@ -39,35 +39,38 @@
           nixpkgs.config.allowUnfree = true;
 
         };
-      username = "niklasscholz";
       mkHomeConfiguration = import ./home/mkHomeConfiguration.nix;
+      minimalModules = import ./modules;
     in
     {
-      darwinConfigurations."MacBook-Pro" = nix-darwin.lib.darwinSystem {
-        modules = [
-          configuration
-          ./hosts/private.nix
-          home-manager.darwinModules.home-manager
-          (mkHomeConfiguration {
-            inherit username;
-            inherit nixpkgs;
-          })
-        ];
-      };
-      darwinConfigurations."Niklass-MacBook-Pro" = nix-darwin.lib.darwinSystem {
-        modules = [
-          configuration
-          ./hosts/work.nix
-          home-manager.darwinModules.home-manager
-          (mkHomeConfiguration {
-            inherit username;
-            inherit nixpkgs;
-            additionalConfigs = [
-              import
-              ./home/work.nix
-            ];
-          })
-        ];
-      };
+      mkConfiguration = mkConfiguration;
+      mkHomeConfiguration = mkHomeConfiguration;
+      minimalModules = minimalModules;
+
+      # darwinConfigurations."MacBook-Pro" = nix-darwin.lib.darwinSystem {
+      #   modules = [
+      #     configuration
+      #     ./hosts/private.nix
+      #     home-manager.darwinModules.home-manager
+      #     (mkHomeConfiguration {
+      #       inherit username;
+      #     })
+      #   ];
+      # };
+      # darwinConfigurations."Niklass-MacBook-Pro" = nix-darwin.lib.darwinSystem {
+      #   modules = [
+      #     configuration
+      #     ./hosts/work.nix
+      #     home-manager.darwinModules.home-manager
+      #     (mkHomeConfiguration {
+      #       inherit username;
+      #       inherit nixpkgs;
+      #       additionalConfigs = [
+      #         import
+      #         ./home/work.nix
+      #       ];
+      #     })
+      #   ];
+      # };
     };
 }
