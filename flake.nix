@@ -19,9 +19,10 @@
     }:
     let
       mkConfiguration =
-        { pkgs, username, ... }:
+        { username, ... }:
+        { pkgs, ... }:
         {
-          system.primaryUser = "niklasscholz";
+          system.primaryUser = username;
           security.pam.services.sudo_local.touchIdAuth = true;
           # Necessary for using flakes on this system.
           nix.settings.experimental-features = "nix-command flakes";
@@ -41,36 +42,30 @@
         };
       mkHomeConfiguration = import ./home/mkHomeConfiguration.nix;
       minimalModules = import ./modules;
+      mkDarwinConfiguration =
+        {
+          username,
+          extraModules ? [ ],
+          ...
+        }:
+        nix-darwin.lib.darwinSystem {
+          modules = [
+            (mkConfiguration { inherit username; })
+            home-manager.darwinModules.home-manager
+            (mkHomeConfiguration {
+              inherit username;
+              inherit nixpkgs;
+            })
+            minimalModules
+          ] ++ extraModules;
+        };
+      # import ./darwin/mkDarwinConfiguration.nix
+      #   { inherit inputs; };
     in
     {
       mkConfiguration = mkConfiguration;
       mkHomeConfiguration = mkHomeConfiguration;
       minimalModules = minimalModules;
-
-      # darwinConfigurations."MacBook-Pro" = nix-darwin.lib.darwinSystem {
-      #   modules = [
-      #     configuration
-      #     ./hosts/private.nix
-      #     home-manager.darwinModules.home-manager
-      #     (mkHomeConfiguration {
-      #       inherit username;
-      #     })
-      #   ];
-      # };
-      # darwinConfigurations."Niklass-MacBook-Pro" = nix-darwin.lib.darwinSystem {
-      #   modules = [
-      #     configuration
-      #     ./hosts/work.nix
-      #     home-manager.darwinModules.home-manager
-      #     (mkHomeConfiguration {
-      #       inherit username;
-      #       inherit nixpkgs;
-      #       additionalConfigs = [
-      #         import
-      #         ./home/work.nix
-      #       ];
-      #     })
-      #   ];
-      # };
+      mkDarwinConfiguration = mkDarwinConfiguration;
     };
 }
