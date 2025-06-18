@@ -49,6 +49,7 @@
         {
           username,
           extraModules ? [ ],
+          extraHomeManagerConfiguration ? { },
           ...
         }:
         nix-darwin.lib.darwinSystem {
@@ -61,6 +62,7 @@
               inherit home-manager;
               inherit username;
               inherit nixpkgs;
+              extraConfig = extraHomeManagerConfiguration;
             })
             ++ extraModules;
         };

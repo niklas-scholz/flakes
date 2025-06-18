@@ -54,19 +54,24 @@ Follow the [nix-darwin installation instructions](https://github.com/nix-darwin/
       darwin-minimal,
     }:
     let
-      username = "niklas";
-      hostname = "MacBook-Pro";
-      mkDarwinConfiguration = darwin-minimal.mkDarwinConfiguration;
+      username = "niklasscholz";
+
       extraModules = [
         ./hosts/private.nix
       ];
     in
     {
-      darwinConfigurations.${hostname} = mkDarwinConfiguration {
+      darwinConfigurations."MacBook-Pro" = darwin-minimal.mkDarwinConfiguration {
         inherit username;
         inherit extraModules;
+        extraHomeManagerConfiguration = {
+          programs.zsh.sessionVariables = {
+            FOO = "bar";
+          };
+        };
       };
     };
+
 }
 ```
 
