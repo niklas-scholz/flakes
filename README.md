@@ -71,7 +71,6 @@ Follow the [nix-darwin installation instructions](https://github.com/nix-darwin/
         };
       };
     };
-
 }
 ```
 
