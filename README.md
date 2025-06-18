@@ -1,20 +1,22 @@
-# 🍎 Niklas' nix-darwin Flakes
+# 🍎 Niklas' minimal nix-darwin configuration
 
-This repository contains my [nix-darwin](https://github.com/nix-darwin/nix-darwin) configuration using Nix flakes. It defines setups for two macOS hosts — my **work** and **private** laptops — and is intended as a solid starting point for anyone looking to configure macOS declaratively with Nix.
+A minimal, reusable flake for macOS configurations using [`nix-darwin`](https://github.com/LnL7/nix-darwin) and [`home-manager`](https://github.com/nix-community/home-manager).
 
-> ⚠️ Still under construction — but usable as a starter template.
+> ⚠️ This flake does **not** include any host-specific configuration — it's intended to be imported into other flakes.
+> **Use with care**: Check the configuration before applying it to your system or use it as a inspiration for your own setup.
 
 ---
 
-## 🧠 What This Repo Does
+## 🧠 What It Provides
+
+This flake is intended as a **clean base** for building your own `nix-darwin` system. It includes:
+
+- `mkDarwinConfiguration`: a convenience function to construct a full `nix-darwin` system.
+- `mkHomeConfiguration`: a function to create a home-manager configuration this is already executed in `mkDarwinConfiguration`.
+
+What it configures:
 
 - Uses **nix-darwin** to declaratively manage macOS configuration.
-- Defines separate setups for:
-
-  - `private`: My personal laptop
-  - `work`: My work-issued machine
-
-- Both hosts inherit from a shared base configuration, which defines common packages, settings, and module imports.
 
 - Manages:
 
@@ -28,35 +30,48 @@ This repository contains my [nix-darwin](https://github.com/nix-darwin/nix-darwi
 
 ## 🚀 Getting Started
 
-### 1. Install Nix (multi-user)
+### 1. Install Nix
 
 Follow the [official instructions](https://nixos.org/download.html).
 
-### 2. Clone this repo
+### 2. Install nix-darwin
 
-```sh
-git clone https://github.com/niklas-scholz/flakes.git
-cd flakes
+Follow the [nix-darwin installation instructions](https://github.com/nix-darwin/nix-darwin?tab=readme-ov-file#getting-started)
+
+### 3. Create a new flake like in the following example:
+
+```nix
+{
+  description = "Nix-darwin configuration for Nik's MacBook-Pro";
+
+  inputs = {
+    darwin-minimal.url = "github:niklas-scholz/flakes";
+  };
+
+  outputs =
+    inputs@{
+      self,
+      darwin-minimal,
+    }:
+    let
+      username = "niklas";
+      hostname = "MacBook-Pro";
+      mkDarwinConfiguration = darwin-minimal.mkDarwinConfiguration;
+      extraModules = [
+        ./hosts/private.nix
+      ];
+    in
+    {
+      darwinConfigurations.${hostname} = mkDarwinConfiguration {
+        inherit username;
+        inherit extraModules;
+      };
+    };
+}
 ```
 
-### 3. Run `darwin-rebuild`
+### 3. Apply the configuration
 
-If the current machine's host name matches one of the defined hosts in [flake.nix](./flake.nix), you can simply run:
-
-```sh
+```bash
 sudo darwin-rebuild switch --flake .
 ```
-
-For a specific host configuration:
-
-```sh
-sudo darwin-rebuild switch --flake .#MacBook-Pro
-```
-
-## 🚧 Future Plans
-
-I'm working on extracting a reusable module so this configuration can be imported into private or external Darwin setups. This will allow me to:
-
-- Maintain a private repo for work machines
-- Reuse shared config (e.g. Zsh, package sets) across systems
-- Keep sensitive configs out of public view

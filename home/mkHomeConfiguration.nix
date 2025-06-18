@@ -2,7 +2,8 @@
   username,
   nixpkgs,
   additionalConfigs ? [ ],
-  ...
+  home-manager,
+
 }:
 let
   standardConfig = {
@@ -12,19 +13,22 @@ let
   };
   shellConfig = import ./shell.nix;
 in
-{
+[
+  home-manager.darwinModules.home-manager
+  {
 
-  home-manager.useGlobalPkgs = true;
-  home-manager.useUserPackages = true;
+    home-manager.useGlobalPkgs = true;
+    home-manager.useUserPackages = true;
 
-  users.users.${username}.home = "/Users/${username}";
-  home-manager.backupFileExtension = "backup";
+    users.users.${username}.home = "/Users/${username}";
+    home-manager.backupFileExtension = "backup";
 
-  home-manager.users.${username} = nixpkgs.lib.mkMerge (
-    [
-      standardConfig
-      shellConfig
-    ]
-    ++ additionalConfigs
-  );
-}
+    home-manager.users.${username} = nixpkgs.lib.mkMerge (
+      [
+        standardConfig
+        shellConfig
+      ]
+      ++ additionalConfigs
+    );
+  }
+]

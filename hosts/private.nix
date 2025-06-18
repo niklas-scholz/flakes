@@ -1,9 +1,6 @@
 { pkgs, ... }:
 
 {
-  imports = [
-    ../modules
-  ];
 
   homebrew = {
     casks = [
