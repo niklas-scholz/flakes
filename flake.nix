@@ -1,5 +1,5 @@
 {
-  description = "Nik's nix-darwin system flake";
+  description = "Nik's minimal nix-darwin config library for shared use";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-25.05-darwin";
@@ -18,10 +18,14 @@
       home-manager,
     }:
     let
-      configuration =
+      mkConfiguration =
+        {
+          username,
+          hostPlatform ? "aarch64-darwin",
+        }:
         { pkgs, ... }:
         {
-          system.primaryUser = "niklasscholz";
+          system.primaryUser = username;
           security.pam.services.sudo_local.touchIdAuth = true;
           # Necessary for using flakes on this system.
           nix.settings.experimental-features = "nix-command flakes";
@@ -34,40 +38,35 @@
           system.stateVersion = 5;
 
           # The platform the configuration will be used on.
-          nixpkgs.hostPlatform = "aarch64-darwin";
+          nixpkgs.hostPlatform = hostPlatform;
 
           nixpkgs.config.allowUnfree = true;
 
         };
-      username = "niklasscholz";
       mkHomeConfiguration = import ./home/mkHomeConfiguration.nix;
+      minimalModules = import ./modules;
+      mkDarwinConfiguration =
+        {
+          username,
+          extraModules ? [ ],
+          ...
+        }:
+        nix-darwin.lib.darwinSystem {
+          modules =
+            [
+              (mkConfiguration { inherit username; })
+              minimalModules
+            ]
+            ++ (mkHomeConfiguration {
+              inherit home-manager;
+              inherit username;
+              inherit nixpkgs;
+            })
+            ++ extraModules;
+        };
     in
     {
-      darwinConfigurations."MacBook-Pro" = nix-darwin.lib.darwinSystem {
-        modules = [
-          configuration
-          ./hosts/private.nix
-          home-manager.darwinModules.home-manager
-          (mkHomeConfiguration {
-            inherit username;
-            inherit nixpkgs;
-          })
-        ];
-      };
-      darwinConfigurations."Niklass-MacBook-Pro" = nix-darwin.lib.darwinSystem {
-        modules = [
-          configuration
-          ./hosts/work.nix
-          home-manager.darwinModules.home-manager
-          (mkHomeConfiguration {
-            inherit username;
-            inherit nixpkgs;
-            additionalConfigs = [
-              import
-              ./home/work.nix
-            ];
-          })
-        ];
-      };
+      inherit mkDarwinConfiguration;
+      inherit mkHomeConfiguration;
     };
 }
