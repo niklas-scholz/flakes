@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ ... }:
 {
   system.defaults.screencapture = {
     # Save screenshots to the desktop

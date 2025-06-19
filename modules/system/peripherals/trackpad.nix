@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ ... }:
 {
   # Trackpad hardware-level settings
   system.defaults = {

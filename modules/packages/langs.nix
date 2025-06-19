@@ -8,5 +8,6 @@
     nodejs
     corepack
     tenv
+    nixfmt-rfc-style
   ];
 }

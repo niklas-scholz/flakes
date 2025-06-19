@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ ... }:
 {
   system.defaults.ActivityMonitor = {
     # Show the main window when launching Activity Monitor

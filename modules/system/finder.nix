@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ ... }:
 {
   system.defaults.NSGlobalDomain = {
     # Adjust toolbar title rollover delay

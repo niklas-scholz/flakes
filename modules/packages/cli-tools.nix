@@ -12,12 +12,10 @@
     lsd
     less
     htop
-    delta
     ripgrep
     thefuck
     silver-searcher
     yazi
     starship
-    k9s
   ];
 }

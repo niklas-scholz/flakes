@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ ... }:
 {
   system.defaults.NSGlobalDomain = {
     # Set a blazingly fast keyboard repeat rate

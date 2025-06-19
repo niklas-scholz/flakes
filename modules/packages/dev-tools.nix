@@ -3,13 +3,14 @@
   environment.systemPackages = with pkgs; [
     chezmoi
     alacritty
-    nixfmt-rfc-style
     lazygit
     neovim
     tmux
     devpod
     gh
     git
+    k9s
+    delta
   ];
 
   homebrew = {
