@@ -71,7 +71,6 @@
             ++ (mkHomeConfiguration {
               inherit home-manager;
               inherit username;
-              inherit nixpkgs;
               extraConfig = extraHomeManagerConfiguration;
             })
             ++ extraModules;

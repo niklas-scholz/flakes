@@ -1,10 +1,10 @@
 {
   home-manager,
-  nixpkgs,
   username,
   extraConfig,
 }:
 let
+  pkgs = import <nixpkgs> { };
   standardConfig = {
     home.username = username;
     home.stateVersion = "25.05";
@@ -22,7 +22,7 @@ in
     users.users.${username}.home = "/Users/${username}";
     home-manager.backupFileExtension = "backup";
 
-    home-manager.users.${username} = nixpkgs.lib.mkMerge [
+    home-manager.users.${username} = pkgs.lib.mkMerge [
       standardConfig
       shellConfig
       extraConfig
