@@ -26,7 +26,17 @@
         { pkgs, ... }:
         {
           system.primaryUser = username;
+
+          # Enable touch ID authentication for sudo.
           security.pam.services.sudo_local.touchIdAuth = true;
+          # Required for touch ID authentication to work in tmux
+          environment = {
+            etc."pam.d/sudo_local".text = ''
+              # Managed by Nix Darwin
+              auth       optional       ${pkgs.pam-reattach}/lib/pam/pam_reattach.so ignore_ssh
+            '';
+          };
+
           # Necessary for using flakes on this system.
           nix.settings.experimental-features = "nix-command flakes";
 
