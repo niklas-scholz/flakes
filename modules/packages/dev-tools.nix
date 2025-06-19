@@ -1,15 +1,15 @@
 { pkgs, ... }:
 {
-  environment.systemPackages = [
-    pkgs.chezmoi
-    pkgs.alacritty
-    pkgs.nixfmt-rfc-style
-    pkgs.lazygit
-    pkgs.neovim
-    pkgs.tmux
-    pkgs.devpod
-    pkgs.gh
-    pkgs.git
+  environment.systemPackages = with pkgs; [
+    chezmoi
+    alacritty
+    nixfmt-rfc-style
+    lazygit
+    neovim
+    tmux
+    devpod
+    gh
+    git
   ];
 
   homebrew = {
