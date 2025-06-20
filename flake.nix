@@ -55,6 +55,9 @@
 
       mkHomeConfiguration = import ./home/mkHomeConfiguration.nix;
       minimalModules = import ./modules;
+    in
+    {
+      inherit mkHomeConfiguration;
       mkDarwinConfiguration =
         {
           username,
@@ -67,7 +70,6 @@
           modules = [
             (mkConfiguration { inherit username; })
             (minimalModules { inherit cleanupHomebrew; })
-
             (mkHomeConfiguration {
               inherit home-manager;
               inherit username;
@@ -75,9 +77,5 @@
             })
           ] ++ extraModules;
         };
-    in
-    {
-      inherit mkDarwinConfiguration;
-      inherit mkHomeConfiguration;
     };
 }
