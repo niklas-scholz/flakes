@@ -6,11 +6,11 @@
   imports = [
     ./system
     ./packages
-    ./fonts
+    ./fonts.nix
   ];
 
   homebrew = {
     enable = true;
-    onActivation.cleanup = if cleanupHomebrew then "unistall" else "none";
+    onActivation.cleanup = if cleanupHomebrew then "uninstall" else "none";
   };
 }
