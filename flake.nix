@@ -60,13 +60,14 @@
           username,
           extraModules ? [ ],
           extraHomeManagerConfiguration ? { },
+          cleanupHomebrew ? false,
           ...
         }:
         nix-darwin.lib.darwinSystem {
           modules =
             [
               (mkConfiguration { inherit username; })
-              minimalModules
+              (minimalModules { inherit cleanupHomebrew; })
             ]
             ++ (mkHomeConfiguration {
               inherit home-manager;

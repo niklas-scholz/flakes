@@ -17,5 +17,6 @@
     silver-searcher
     yazi
     starship
+    fzf
   ];
 }

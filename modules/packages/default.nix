@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ ... }:
 {
   imports = [
     ./browsers.nix
@@ -8,10 +8,5 @@
     ./supercharge.nix
     ./langs.nix
   ];
-
-  homebrew = {
-    enable = true;
-    onActivation.cleanup = "uninstall";
-  };
 
 }
