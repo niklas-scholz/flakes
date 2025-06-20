@@ -51,8 +51,8 @@
           nixpkgs.hostPlatform = hostPlatform;
 
           nixpkgs.config.allowUnfree = true;
-
         };
+
       mkHomeConfiguration = import ./home/mkHomeConfiguration.nix;
       minimalModules = import ./modules;
       mkDarwinConfiguration =
