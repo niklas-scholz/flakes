@@ -64,17 +64,16 @@
           ...
         }:
         nix-darwin.lib.darwinSystem {
-          modules =
-            [
-              (mkConfiguration { inherit username; })
-              (minimalModules { inherit cleanupHomebrew; })
-            ]
-            ++ (mkHomeConfiguration {
+          modules = [
+            (mkConfiguration { inherit username; })
+            (minimalModules { inherit cleanupHomebrew; })
+
+            (mkHomeConfiguration {
               inherit home-manager;
               inherit username;
               extraConfig = extraHomeManagerConfiguration;
             })
-            ++ extraModules;
+          ] ++ extraModules;
         };
     in
     {

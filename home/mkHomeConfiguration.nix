@@ -12,20 +12,22 @@ let
   };
   shellConfig = import ./shell.nix;
 in
-[
-  home-manager.darwinModules.home-manager
-  {
+{
+  imports = [
+    home-manager.darwinModules.home-manager
+    {
 
-    home-manager.useGlobalPkgs = true;
-    home-manager.useUserPackages = true;
+      home-manager.useGlobalPkgs = true;
+      home-manager.useUserPackages = true;
 
-    users.users.${username}.home = "/Users/${username}";
-    home-manager.backupFileExtension = "backup";
+      users.users.${username}.home = "/Users/${username}";
+      home-manager.backupFileExtension = "backup";
 
-    home-manager.users.${username} = pkgs.lib.mkMerge [
-      standardConfig
-      shellConfig
-      extraConfig
-    ];
-  }
-]
+      home-manager.users.${username} = pkgs.lib.mkMerge [
+        standardConfig
+        shellConfig
+        extraConfig
+      ];
+    }
+  ];
+}
