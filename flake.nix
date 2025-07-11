@@ -71,8 +71,7 @@
             (mkConfiguration { inherit username; })
             (minimalModules { inherit cleanupHomebrew; })
             (mkHomeConfiguration {
-              inherit home-manager;
-              inherit username;
+              inherit home-manager username;
               extraConfig = extraHomeManagerConfiguration;
             })
           ] ++ extraModules;

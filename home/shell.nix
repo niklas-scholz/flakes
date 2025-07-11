@@ -1,4 +1,10 @@
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+{
   programs = {
     zsh = {
       enable = true;
@@ -18,27 +24,46 @@
 
       };
 
-      initContent = ''
-        bindkey '\eg' fzf-cd-widget
+      initContent =
+        let
+          inherit (lib)
+            getExe
+            ;
+          zshConfigEarlyInit = pkgs.lib.mkBefore ''
+            source ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
+          '';
 
-        FZF_GIT_SH="$HOME/.config/zsh/fzf-git.sh"
-        if [ ! -f "$FZF_GIT_SH" ]; then
-          echo "Downloading fzf-git.sh to \$FZF_GIT_SH"
-          mkdir -p "$(dirname "$FZF_GIT_SH")"
-          curl -fsSL https://raw.githubusercontent.com/junegunn/fzf-git.sh/main/fzf-git.sh -o "$FZF_GIT_SH"
-        fi
+          zshConfig = ''
+            bindkey '\eg' fzf-cd-widget
 
-        source "$FZF_GIT_SH"
+            FZF_GIT_SH="$HOME/.config/zsh/fzf-git.sh"
+            if [ ! -f "$FZF_GIT_SH" ]; then
+              echo "Downloading fzf-git.sh to \$FZF_GIT_SH"
+              mkdir -p "$(dirname "$FZF_GIT_SH")"
+              curl -fsSL https://raw.githubusercontent.com/junegunn/fzf-git.sh/main/fzf-git.sh -o "$FZF_GIT_SH"
+            fi
 
-        # "**" command syntax
-        _fzf_compgen_path() {
-          fd --hidden --follow . "$1"
-        }
-        # "**" command syntax (for directories only)
-        _fzf_compgen_dir() {
-          fd --type d --hidden --follow . "$1"
-        }
-      '';
+            source "$FZF_GIT_SH"
+
+            # "**" command syntax
+            _fzf_compgen_path() {
+              fd --hidden --follow . "$1"
+            }
+            # "**" command syntax (for directories only)
+            _fzf_compgen_dir() {
+              fd --type d --hidden --follow . "$1"
+            }
+          '';
+          final = lib.mkAfter ''
+            source <(${getExe config.programs.fzf.package} --zsh)
+          '';
+        in
+        pkgs.lib.mkMerge [
+          zshConfigEarlyInit
+          zshConfig
+          final
+        ];
+
       shellAliases = {
         vim = "nvim";
         v = "nvim";
@@ -71,7 +96,7 @@
     };
     fzf = {
       enable = true;
-      enableZshIntegration = true;
+      # enableZshIntegration = true;
       defaultCommand = "fd --hidden --strip-cwd-prefix";
       # Command line options for the CTRL-T keybinding.
       fileWidgetCommand = "fd --hidden --strip-cwd-prefix";
