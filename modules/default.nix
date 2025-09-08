@@ -1,5 +1,4 @@
 {
-  cleanupHomebrew ? false,
   ...
 }:
 {
@@ -11,6 +10,5 @@
 
   homebrew = {
     enable = true;
-    onActivation.cleanup = if cleanupHomebrew then "uninstall" else "none";
   };
 }

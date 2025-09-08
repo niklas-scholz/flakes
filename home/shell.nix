@@ -62,6 +62,7 @@
         cd = "z";
 
         gcob = "_fzf_git_branches --no-multi | xargs git checkout";
+        pyac = "source $(poetry env info --path)/bin/activate";
       };
 
     };

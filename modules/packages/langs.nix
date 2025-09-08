@@ -6,7 +6,6 @@
     terraformer
     pipx
     nodejs
-    corepack
     tenv
     nixfmt-rfc-style
   ];
