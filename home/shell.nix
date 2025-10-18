@@ -44,11 +44,12 @@
         fi
         source "$FZF_GIT_SH"
 
+        # --- fzf setup ---
         # fzf integration for path completions
         _fzf_compgen_path() { fd --hidden --follow . "$1"; }
         _fzf_compgen_dir() { fd --type d --hidden --follow . "$1"; }
 
-        # --- Ensure fzf keybindings available ---
+        # Ensure fzf keybindings available
         if type fzf-share >/dev/null 2>&1; then
           source "$(fzf-share)/key-bindings.zsh"
         elif [[ -f ${pkgs.fzf}/share/fzf/key-bindings.zsh ]]; then
