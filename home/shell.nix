@@ -22,10 +22,7 @@
         EDITOR = "nvim";
       };
 
-      # ==============================
-      #   Zsh init configuration
-      # ==============================
-      initExtra = ''
+      initContent = ''
         # --- Load zsh-vi-mode ---
         source ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
 
@@ -92,7 +89,7 @@
 
     fzf = {
       enable = true;
-      enableZshIntegration = false; # handled manually to ensure compatibility
+      enableZshIntegration = false; # handled manually to ensure compatibility with zsh-vi-mode
       defaultCommand = "fd --hidden --strip-cwd-prefix";
       fileWidgetCommand = "fd --hidden --strip-cwd-prefix";
       changeDirWidgetCommand = "fd --type=d --hidden --strip-cwd-prefix --exclude .git";
