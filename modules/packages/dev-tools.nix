@@ -17,6 +17,7 @@
     casks = [
       "dbeaver-community"
       "ghostty"
+      "visual-studio-code"
     ];
   };
 }

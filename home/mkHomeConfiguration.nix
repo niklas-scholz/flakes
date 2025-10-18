@@ -9,6 +9,9 @@ let
     home.username = username;
     home.stateVersion = "25.05";
     home.enableNixpkgsReleaseCheck = false;
+    home.sessionPath = [
+      "$(yarn global bin):$PATH"
+    ];
   };
   shellConfig = import ./shell.nix;
 in
