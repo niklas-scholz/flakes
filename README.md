@@ -62,7 +62,8 @@ Follow the [nix-darwin installation instructions](https://github.com/nix-darwin/
     in
     {
       darwinConfigurations."MacBook-Pro" = darwin-minimal.mkDarwinConfiguration {
-        inherit username extraModules;
+        inherit username;
+        inherit extraModules;
         extraHomeManagerConfiguration = {
           programs.zsh.sessionVariables = {
             FOO = "bar";
