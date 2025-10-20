@@ -6,10 +6,10 @@
 }:
 let
   zshCoreHooks = lib.mkOrder 1000 ''
-    # --- Load zsh-vi-mode ---
+    # Load zsh-vi-mode
     source ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
 
-    # --- ZVM HOOK: Load Fzf completion after vi-mode initialization ---
+    # ZVM HOOK: Load Fzf completion after vi-mode initialization
     function zvm_after_init() {
       if [[ -x ${pkgs.fzf}/bin/fzf ]]; then
         eval "$(${pkgs.fzf}/bin/fzf --zsh)"
@@ -18,16 +18,12 @@ let
   '';
 
   zshFzfCustoms = lib.mkOrder 1050 ''
-    # --- fzf Custom Functions ---
-    # fzf integration for path completions, uses 'fd'
+    # fzf integration for path completions uses 'fd'
     _fzf_compgen_path() { fd --hidden --follow . "$1"; }
     _fzf_compgen_dir() { fd --type d --hidden --follow . "$1"; }
   '';
 
   zshFzfGit = lib.mkOrder 1100 ''
-    # --- fzf-git setup ---
-    bindkey '\eg' fzf-cd-widget
-
     FZF_GIT_SH="$HOME/.config/zsh/fzf-git.sh"
     if [ ! -f "$FZF_GIT_SH" ]; then
       echo "Downloading fzf-git.sh to $FZF_GIT_SH"
