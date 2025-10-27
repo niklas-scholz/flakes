@@ -11,9 +11,19 @@ let
 
     # ZVM HOOK: Load Fzf completion after vi-mode initialization
     function zvm_after_init() {
+      bindkey '\eg' fzf-cd-widget
       if [[ -x ${pkgs.fzf}/bin/fzf ]]; then
         eval "$(${pkgs.fzf}/bin/fzf --zsh)"
       fi
+
+
+    FZF_GIT_SH="$HOME/.config/zsh/fzf-git.sh"
+      if [ ! -f "$FZF_GIT_SH" ]; then
+        echo "Downloading fzf-git.sh to $FZF_GIT_SH"
+        mkdir -p "$(dirname "$FZF_GIT_SH")"
+        curl -fsSL https://raw.githubusercontent.com/junegunn/fzf-git.sh/main/fzf-git.sh -o "$FZF_GIT_SH"
+      fi
+      source "$FZF_GIT_SH"
     }
   '';
 
@@ -24,13 +34,7 @@ let
   '';
 
   zshFzfGit = lib.mkOrder 1100 ''
-    FZF_GIT_SH="$HOME/.config/zsh/fzf-git.sh"
-    if [ ! -f "$FZF_GIT_SH" ]; then
-      echo "Downloading fzf-git.sh to $FZF_GIT_SH"
-      mkdir -p "$(dirname "$FZF_GIT_SH")"
-      curl -fsSL https://raw.githubusercontent.com/junegunn/fzf-git.sh/main/fzf-git.sh -o "$FZF_GIT_SH"
-    fi
-    source "$FZF_GIT_SH"
+
   '';
 in
 {
@@ -49,6 +53,7 @@ in
       sessionVariables = {
         DELTA_PAGER = "less -R";
         EDITOR = "nvim";
+        ZVM_SYSTEM_CLIPBOARD_ENABLED = true;
       };
 
       initContent = lib.mkMerge [
