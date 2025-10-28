@@ -20,7 +20,9 @@
         pkgs = import nixpkgs {
           inherit system;
         };
-
+        pyac = pkgs.writeShellScriptBin "pyac" ''
+          source $(poetry env info --path)/bin/activate
+        '';
         mkPythonShell =
           {
             poetryVersion ? "",
@@ -30,6 +32,7 @@
             packages = [
               pythonPackage
               pkgs.pipx
+              pyac
             ];
 
             shellHook = ''
