@@ -45,7 +45,7 @@ Follow the [nix-darwin installation instructions](https://github.com/nix-darwin/
   description = "Nix-darwin configuration for Nik's MacBook-Pro";
 
   inputs = {
-    darwin-minimal.url = "github:niklas-scholz/flakes";
+    darwin-minimal.url = "github:niklas-scholz/flakes/darwin";
   };
 
   outputs =

@@ -4,6 +4,34 @@
   pkgs,
   ...
 }:
+let
+  zshCoreHooks = lib.mkOrder 1000 ''
+    # Load zsh-vi-mode
+    source ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
+
+    # ZVM HOOK: Load Fzf completion after vi-mode initialization
+    function zvm_after_init() {
+      bindkey '\eg' fzf-cd-widget
+      if [[ -x ${pkgs.fzf}/bin/fzf ]]; then
+        eval "$(${pkgs.fzf}/bin/fzf --zsh)"
+      fi
+
+      FZF_GIT_SH="$HOME/.config/zsh/fzf-git.sh"
+      if [ ! -f "$FZF_GIT_SH" ]; then
+        echo "Downloading fzf-git.sh to $FZF_GIT_SH"
+        mkdir -p "$(dirname "$FZF_GIT_SH")"
+        curl -fsSL https://raw.githubusercontent.com/junegunn/fzf-git.sh/main/fzf-git.sh -o "$FZF_GIT_SH"
+      fi
+      source "$FZF_GIT_SH"
+    }
+  '';
+
+  zshFzfCustoms = lib.mkOrder 1050 ''
+    # fzf integration for path completions uses 'fd'
+    _fzf_compgen_path() { fd --hidden --follow . "$1"; }
+    _fzf_compgen_dir() { fd --type d --hidden --follow . "$1"; }
+  '';
+in
 {
   programs = {
     zsh = {
@@ -22,40 +50,10 @@
         EDITOR = "nvim";
       };
 
-      initContent = ''
-        # --- Load zsh-vi-mode ---
-        source ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
-
-        # --- Compatibility: re-source fzf bindings after vi-mode initializes ---
-        function zvm_after_init() {
-          if [[ -f ~/.fzf.zsh ]]; then
-            source ~/.fzf.zsh
-          fi
-        }
-
-        # --- fzf-git setup ---
-        bindkey '\eg' fzf-cd-widget
-
-        FZF_GIT_SH="$HOME/.config/zsh/fzf-git.sh"
-        if [ ! -f "$FZF_GIT_SH" ]; then
-          echo "Downloading fzf-git.sh to $FZF_GIT_SH"
-          mkdir -p "$(dirname "$FZF_GIT_SH")"
-          curl -fsSL https://raw.githubusercontent.com/junegunn/fzf-git.sh/main/fzf-git.sh -o "$FZF_GIT_SH"
-        fi
-        source "$FZF_GIT_SH"
-
-        # --- fzf setup ---
-        # fzf integration for path completions
-        _fzf_compgen_path() { fd --hidden --follow . "$1"; }
-        _fzf_compgen_dir() { fd --type d --hidden --follow . "$1"; }
-
-        # Ensure fzf keybindings available
-        if type fzf-share >/dev/null 2>&1; then
-          source "$(fzf-share)/key-bindings.zsh"
-        elif [[ -f ${pkgs.fzf}/share/fzf/key-bindings.zsh ]]; then
-          source ${pkgs.fzf}/share/fzf/key-bindings.zsh
-        fi
-      '';
+      initContent = lib.mkMerge [
+        zshCoreHooks
+        zshFzfCustoms
+      ];
 
       shellAliases = {
         vim = "nvim";
