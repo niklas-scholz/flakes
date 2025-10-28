@@ -6,9 +6,7 @@ This Nix Flake provides a **reusable library function** for creating isolated Py
 
 ### 🚀 Usage
 
-This flake can be imported into your project's `flake.nix`.
-
-#### 1. Add the Flake as an Input for a
+#### Add the Flake as an Input for your project or shell
 
 In your project's `flake.nix`, define this flake as an input (e.g., `python-shell-maker`):
 
@@ -21,9 +19,16 @@ In your project's `flake.nix`, define this flake as an input (e.g., `python-shel
   };
 
   outputs =
-    { self, nixpkgs, flake-utils, python-shell-maker, ... }:
+    {
+      self,
+      nixpkgs,
+      flake-utils,
+      python-shell-maker,
+      ...
+    }:
     flake-utils.lib.eachDefaultSystem (
       system:
+
       let
         pkgs = import nixpkgs { inherit system; };
 
