@@ -21,13 +21,14 @@
           inherit system;
         };
 
-        mkShellWithPoetry =
+        mkPythonShell =
           {
             poetryVersion ? "",
+            pythonPackage ? pkgs.python313,
           }:
           pkgs.mkShell {
             packages = [
-              pkgs.python310
+              pythonPackage
               pkgs.pipx
             ];
 
@@ -47,6 +48,7 @@
                 # Optionally append the version string if provided
                 if poetryVersion != "" then "==${poetryVersion}" else ""
               } into Nix-managed temporary environment..."
+
               pipx install poetry${
                 # Append the version specification to the install command
                 if poetryVersion != "" then "==${poetryVersion}" else ""
@@ -55,10 +57,10 @@
               echo "Poetry is now available at: $(which poetry)"
             '';
           };
-        devShell = mkShellWithPoetry { };
+        devShell = mkPythonShell { };
       in
       {
-        lib.mkShellWithPoetry = mkShellWithPoetry;
+        lib.mkPythonShell = mkPythonShell;
 
         devShells = {
           default = devShell;
