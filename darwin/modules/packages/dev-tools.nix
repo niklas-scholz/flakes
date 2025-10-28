@@ -11,6 +11,7 @@
     git
     k9s
     delta
+    rainfrog
   ];
 
   homebrew = {
@@ -18,6 +19,7 @@
       "dbeaver-community"
       "ghostty"
       "visual-studio-code"
+      "freelens"
     ];
   };
 }
