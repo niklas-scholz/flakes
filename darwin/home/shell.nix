@@ -16,8 +16,7 @@ let
         eval "$(${pkgs.fzf}/bin/fzf --zsh)"
       fi
 
-
-    FZF_GIT_SH="$HOME/.config/zsh/fzf-git.sh"
+      FZF_GIT_SH="$HOME/.config/zsh/fzf-git.sh"
       if [ ! -f "$FZF_GIT_SH" ]; then
         echo "Downloading fzf-git.sh to $FZF_GIT_SH"
         mkdir -p "$(dirname "$FZF_GIT_SH")"
@@ -31,10 +30,6 @@ let
     # fzf integration for path completions uses 'fd'
     _fzf_compgen_path() { fd --hidden --follow . "$1"; }
     _fzf_compgen_dir() { fd --type d --hidden --follow . "$1"; }
-  '';
-
-  zshFzfGit = lib.mkOrder 1100 ''
-
   '';
 in
 {
@@ -53,13 +48,11 @@ in
       sessionVariables = {
         DELTA_PAGER = "less -R";
         EDITOR = "nvim";
-        ZVM_SYSTEM_CLIPBOARD_ENABLED = true;
       };
 
       initContent = lib.mkMerge [
         zshCoreHooks
         zshFzfCustoms
-        zshFzfGit
       ];
 
       shellAliases = {
