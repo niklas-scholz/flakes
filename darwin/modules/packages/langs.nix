@@ -6,6 +6,7 @@
     terraformer
     nodejs
     tenv
+    cargo
     nixfmt-rfc-style
   ];
 }

@@ -4,6 +4,7 @@
     chezmoi
     alacritty
     lazygit
+    lazydocker
     neovim
     tmux
     devpod
