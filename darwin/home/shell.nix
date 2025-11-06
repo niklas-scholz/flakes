@@ -4,25 +4,39 @@
   pkgs,
   ...
 }:
-let
-  zshCoreHooks = lib.mkOrder 1000 ''
-    # Load zsh-vi-mode
-    source ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
 
-    # ZVM HOOK: Load Fzf completion after vi-mode initialization
+let
+  zshViModeSrc = pkgs.fetchurl {
+    url = "https://raw.githubusercontent.com/jeffreytse/zsh-vi-mode/v0.12.0/zsh-vi-mode.zsh";
+    sha256 = "0sap5d1s0g033717gpfw6mlr10kkkhiznl5y6dczcizz5pm5gjki";
+  };
+
+  fzfGitSrc = pkgs.fetchurl {
+    url = "https://raw.githubusercontent.com/junegunn/fzf-git.sh/c823ffd/fzf-git.sh";
+    sha256 = "1iv8s7mz4ad6zmhk1imrl96z9n6cv53bizl6svhi4fafh7i0v8iy";
+  };
+
+  zshClipboardSetup = lib.mkOrder 950 ''
+    export ZVM_SYSTEM_CLIPBOARD_ENABLED=true
+  '';
+
+  zshViModeSetup = ''
+    source ${zshViModeSrc}
+  '';
+
+  fzfGitSetup = ''
+    source ${fzfGitSrc}
+  '';
+
+  zshZvmAfterInit = lib.mkOrder 1010 ''
     function zvm_after_init() {
       bindkey '\eg' fzf-cd-widget
+
+      # Load fzf integration manually (after zsh-vi-mode)
       if [[ -x ${pkgs.fzf}/bin/fzf ]]; then
         eval "$(${pkgs.fzf}/bin/fzf --zsh)"
       fi
 
-      FZF_GIT_SH="$HOME/.config/zsh/fzf-git.sh"
-      if [ ! -f "$FZF_GIT_SH" ]; then
-        echo "Downloading fzf-git.sh to $FZF_GIT_SH"
-        mkdir -p "$(dirname "$FZF_GIT_SH")"
-        curl -fsSL https://raw.githubusercontent.com/junegunn/fzf-git.sh/main/fzf-git.sh -o "$FZF_GIT_SH"
-      fi
-      source "$FZF_GIT_SH"
     }
   '';
 
@@ -51,7 +65,10 @@ in
       };
 
       initContent = lib.mkMerge [
-        zshCoreHooks
+        zshClipboardSetup
+        zshViModeSetup
+        zshZvmAfterInit
+        fzfGitSetup
         zshFzfCustoms
       ];
 
