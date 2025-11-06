@@ -6,45 +6,26 @@
 }:
 
 let
-  zshDownloadHelper = ''
-    download_and_source() {
-      local url="$1"
-      local dest="$2"
-      local name
-      name=$(basename "$dest")
+  zshViModeSrc = pkgs.fetchurl {
+    url = "https://raw.githubusercontent.com/jeffreytse/zsh-vi-mode/v0.12.0/zsh-vi-mode.zsh";
+    sha256 = "0sap5d1s0g033717gpfw6mlr10kkkhiznl5y6dczcizz5pm5gjki";
+  };
 
-      if [ ! -f "$dest" ]; then
-        echo "Downloading $name → $dest"
-        mkdir -p "$(dirname "$dest")"
-        curl -fsSL "$url" -o "$dest"
-      fi
-
-      source "$dest"
-    }
-  '';
+  fzfGitSrc = pkgs.fetchurl {
+    url = "https://raw.githubusercontent.com/junegunn/fzf-git.sh/c823ffd/fzf-git.sh";
+    sha256 = "1iv8s7mz4ad6zmhk1imrl96z9n6cv53bizl6svhi4fafh7i0v8iy";
+  };
 
   zshClipboardSetup = lib.mkOrder 950 ''
     export ZVM_SYSTEM_CLIPBOARD_ENABLED=true
   '';
 
   zshViModeSetup = ''
-    ${zshDownloadHelper}
-
-    ZSH_VI_MODE_SCRIPT="$HOME/.config/zsh/zsh-vi-mode/zsh-vi-mode.zsh"
-
-    download_and_source \
-      "https://raw.githubusercontent.com/jeffreytse/zsh-vi-mode/master/zsh-vi-mode.zsh" \
-      "$ZSH_VI_MODE_SCRIPT"
+    source ${zshViModeSrc}
   '';
 
   fzfGitSetup = ''
-    ${zshDownloadHelper}
-
-    FZF_GIT_SH="$HOME/.config/zsh/fzf-git.sh"
-
-    download_and_source \
-      "https://raw.githubusercontent.com/junegunn/fzf-git.sh/main/fzf-git.sh" \
-      "$FZF_GIT_SH"
+    source ${fzfGitSrc}
   '';
 
   zshZvmAfterInit = lib.mkOrder 1010 ''
@@ -56,7 +37,6 @@ let
         eval "$(${pkgs.fzf}/bin/fzf --zsh)"
       fi
 
-      ${fzfGitSetup}
     }
   '';
 
@@ -88,6 +68,7 @@ in
         zshClipboardSetup
         zshViModeSetup
         zshZvmAfterInit
+        fzfGitSetup
         zshFzfCustoms
       ];
 
