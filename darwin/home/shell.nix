@@ -7,7 +7,18 @@
 let
   zshCoreHooks = lib.mkOrder 1000 ''
     # Load zsh-vi-mode
-    source ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
+    ZVM_SYSTEM_CLIPBOARD_ENABLED=true
+
+    ZSH_VI_MODE_DIR="$HOME/.config/zsh/zsh-vi-mode"
+    ZSH_VI_MODE_SCRIPT="$ZSH_VI_MODE_DIR/zsh-vi-mode.zsh"
+
+    if [ ! -f "$ZSH_VI_MODE_SCRIPT" ]; then
+      echo "Downloading zsh-vi-mode to $ZSH_VI_MODE_DIR"
+      mkdir -p "$ZSH_VI_MODE_DIR"
+      curl -fsSL https://raw.githubusercontent.com/jeffreytse/zsh-vi-mode/master/zsh-vi-mode.zsh -o "$ZSH_VI_MODE_SCRIPT"
+    fi
+
+    source "$ZSH_VI_MODE_SCRIPT"
 
     # ZVM HOOK: Load Fzf completion after vi-mode initialization
     function zvm_after_init() {
