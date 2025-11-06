@@ -4,36 +4,59 @@
   pkgs,
   ...
 }:
+
 let
-  zshCoreHooks = lib.mkOrder 1000 ''
-    # Load zsh-vi-mode
-    ZVM_SYSTEM_CLIPBOARD_ENABLED=true
+  zshDownloadHelper = ''
+    download_and_source() {
+      local url="$1"
+      local dest="$2"
+      local name
+      name=$(basename "$dest")
 
-    ZSH_VI_MODE_DIR="$HOME/.config/zsh/zsh-vi-mode"
-    ZSH_VI_MODE_SCRIPT="$ZSH_VI_MODE_DIR/zsh-vi-mode.zsh"
+      if [ ! -f "$dest" ]; then
+        echo "Downloading $name → $dest"
+        mkdir -p "$(dirname "$dest")"
+        curl -fsSL "$url" -o "$dest"
+      fi
 
-    if [ ! -f "$ZSH_VI_MODE_SCRIPT" ]; then
-      echo "Downloading zsh-vi-mode to $ZSH_VI_MODE_DIR"
-      mkdir -p "$ZSH_VI_MODE_DIR"
-      curl -fsSL https://raw.githubusercontent.com/jeffreytse/zsh-vi-mode/master/zsh-vi-mode.zsh -o "$ZSH_VI_MODE_SCRIPT"
-    fi
+      source "$dest"
+    }
+  '';
 
-    source "$ZSH_VI_MODE_SCRIPT"
+  zshClipboardSetup = lib.mkOrder 950 ''
+    export ZVM_SYSTEM_CLIPBOARD_ENABLED=true
+  '';
 
-    # ZVM HOOK: Load Fzf completion after vi-mode initialization
+  zshViModeSetup = ''
+    ${zshDownloadHelper}
+
+    ZSH_VI_MODE_SCRIPT="$HOME/.config/zsh/zsh-vi-mode/zsh-vi-mode.zsh"
+
+    download_and_source \
+      "https://raw.githubusercontent.com/jeffreytse/zsh-vi-mode/master/zsh-vi-mode.zsh" \
+      "$ZSH_VI_MODE_SCRIPT"
+  '';
+
+  fzfGitSetup = ''
+    ${zshDownloadHelper}
+
+    FZF_GIT_SH="$HOME/.config/zsh/fzf-git.sh"
+
+    download_and_source \
+      "https://raw.githubusercontent.com/junegunn/fzf-git.sh/main/fzf-git.sh" \
+      "$FZF_GIT_SH"
+  '';
+
+  zshZvmAfterInit = lib.mkOrder 1010 ''
     function zvm_after_init() {
       bindkey '\eg' fzf-cd-widget
+
+      # Load fzf integration manually (after zsh-vi-mode)
       if [[ -x ${pkgs.fzf}/bin/fzf ]]; then
         eval "$(${pkgs.fzf}/bin/fzf --zsh)"
       fi
 
-      FZF_GIT_SH="$HOME/.config/zsh/fzf-git.sh"
-      if [ ! -f "$FZF_GIT_SH" ]; then
-        echo "Downloading fzf-git.sh to $FZF_GIT_SH"
-        mkdir -p "$(dirname "$FZF_GIT_SH")"
-        curl -fsSL https://raw.githubusercontent.com/junegunn/fzf-git.sh/main/fzf-git.sh -o "$FZF_GIT_SH"
-      fi
-      source "$FZF_GIT_SH"
+      ${fzfGitSetup}
     }
   '';
 
@@ -62,7 +85,9 @@ in
       };
 
       initContent = lib.mkMerge [
-        zshCoreHooks
+        zshClipboardSetup
+        zshViModeSetup
+        zshZvmAfterInit
         zshFzfCustoms
       ];
 
