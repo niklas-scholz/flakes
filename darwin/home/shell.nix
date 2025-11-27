@@ -73,6 +73,10 @@ in
       ];
 
       shellAliases = {
+        c = "clear";
+        e = "exit";
+        cd = "z";
+
         vim = "nvim";
         v = "nvim";
         vi = "nvim";
@@ -81,17 +85,14 @@ in
         ta = "t a";
 
         cz = "chezmoi";
-
         cat = "bat";
-        c = "clear";
-        e = "exit";
 
         ls = "lsd";
         du = "dust";
         grep = "rg";
         find = "fd";
         lz = "lazygit";
-        cd = "z";
+        lzd = "lazydocker";
 
         gcob = "_fzf_git_branches --no-multi | xargs git checkout";
       };
