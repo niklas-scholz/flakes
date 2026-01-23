@@ -3,6 +3,7 @@
   environment.systemPackages = with pkgs; [
     ack
     bat
+    curl
     fd
     dust
     zoxide
