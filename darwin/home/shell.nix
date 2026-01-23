@@ -62,6 +62,7 @@ in
       sessionVariables = {
         DELTA_PAGER = "less -R";
         EDITOR = "nvim";
+        K9S_CONFIG_DIR = "${config.home.homeDirectory}/.config/k9s";
       };
 
       initContent = lib.mkMerge [
