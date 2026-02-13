@@ -2,11 +2,12 @@
   description = "Nik's minimal nix-darwin config library for shared use";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-25.05-darwin";
-    nix-darwin.url = "github:LnL7/nix-darwin/nix-darwin-25.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-25.11-darwin";
+
+    nix-darwin.url = "github:LnL7/nix-darwin/nix-darwin-25.11";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
-    home-manager.url = "github:nix-community/home-manager";
+    home-manager.url = "github:nix-community/home-manager/release-25.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
@@ -25,7 +26,6 @@
         }:
         { pkgs, ... }:
         {
-          system.primaryUser = username;
 
           # Enable touch ID authentication for sudo.
           security.pam.services.sudo_local.touchIdAuth = true;
@@ -39,13 +39,16 @@
 
           # Necessary for using flakes on this system.
           nix.settings.experimental-features = "nix-command flakes";
+          system = {
+            primaryUser = username;
 
-          # Set Git commit hash for darwin-version.
-          system.configurationRevision = self.rev or self.dirtyRev or null;
+            # Set Git commit hash for darwin-version.
+            configurationRevision = self.rev or self.dirtyRev or null;
 
-          # Used for backwards compatibility, please read the changelog before changing.
-          # $ darwin-rebuild changelog
-          system.stateVersion = 5;
+            # Used for backwards compatibility, please read the changelog before changing.
+            # $ darwin-rebuild changelog
+            stateVersion = 5;
+          };
 
           # The platform the configuration will be used on.
           nixpkgs.hostPlatform = hostPlatform;
@@ -68,13 +71,14 @@
         nix-darwin.lib.darwinSystem {
           modules = [
             (mkConfiguration { inherit username; })
-            (minimalModules)
+            minimalModules
             (mkHomeConfiguration {
               inherit home-manager;
               inherit username;
               extraConfig = extraHomeManagerConfiguration;
             })
-          ] ++ extraModules;
+          ]
+          ++ extraModules;
         };
     };
 }

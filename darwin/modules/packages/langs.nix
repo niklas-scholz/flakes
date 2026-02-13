@@ -8,5 +8,6 @@
     tenv
     cargo
     nixfmt-rfc-style
+    statix
   ];
 }

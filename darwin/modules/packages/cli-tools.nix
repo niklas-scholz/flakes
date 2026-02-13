@@ -14,7 +14,6 @@
     less
     htop
     ripgrep
-    thefuck
     silver-searcher
     yazi
     starship
