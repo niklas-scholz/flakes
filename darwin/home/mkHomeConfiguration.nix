@@ -16,10 +16,10 @@ let
       packages = with pkgs; [
         nodejs
         (writeShellScriptBin "pnpm" ''
-          exec ${nodejs_20}/bin/corepack pnpm "$@"
+          exec ${nodejs_22}/bin/corepack pnpm "$@"
         '')
         (writeShellScriptBin "yarn" ''
-          exec ${nodejs_20}/bin/corepack yarn "$@"
+          exec ${nodejs_22}/bin/corepack yarn "$@"
         '')
       ];
     };
