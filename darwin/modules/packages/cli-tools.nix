@@ -3,6 +3,7 @@
   environment.systemPackages = with pkgs; [
     ack
     bat
+    claude-code
     curl
     fd
     dust
