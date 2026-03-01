@@ -2,7 +2,7 @@
 {
   system.defaults = {
     dock = {
-      orientation = "left";
+      orientation = "bottom";
       # Automatically hide and show the Dock
       autohide = true;
       # Whether to group windows by application in Mission Control’s Exposé. The default is false.

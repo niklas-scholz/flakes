@@ -4,6 +4,7 @@
     ack
     bat
     claude-code
+    circumflex
     curl
     fd
     dust
