@@ -27,4 +27,7 @@
   };
 
   networking.applicationFirewall.enable = true;
+
+  # Enable touch ID authentication for sudo.
+  security.pam.services.sudo_local.touchIdAuth = true;
 }
