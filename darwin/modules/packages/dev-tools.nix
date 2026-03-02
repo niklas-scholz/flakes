@@ -2,7 +2,6 @@
 {
   environment = {
     systemPackages = with pkgs; [
-      chezmoi
       alacritty
       lazygit
       lazydocker

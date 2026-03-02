@@ -76,26 +76,30 @@ in
       shellAliases = {
         c = "clear";
         e = "exit";
-        cd = "z";
+        gcob = "_fzf_git_branches --no-multi | xargs git checkout";
+        # Reload shell
+        reload = "exec $SHELL";
+        # Show path entries
+        path = "echo $PATH | tr ':' '\\n'";
 
         vim = "nvim";
         v = "nvim";
         vi = "nvim";
-
+        cz = "chezmoi";
         t = "tmux";
         ta = "t a";
 
-        cz = "chezmoi";
         cat = "bat";
-
+        cd = "z";
         ls = "lsd";
         du = "dust";
         grep = "rg";
         find = "fd";
+        ps = "procs";
+
         lz = "lazygit";
         lzd = "lazydocker";
 
-        gcob = "_fzf_git_branches --no-multi | xargs git checkout";
       };
     };
 

@@ -25,6 +25,8 @@
       show-recents = false;
       # Show appswitcher on all windows
       appswitcher-all-displays = true;
+      # Set the minimize/maximize window effect
+      mineffect = "scale";
 
       # Disable hot corners
       wvous-bl-corner = 1;

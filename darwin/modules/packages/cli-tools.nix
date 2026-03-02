@@ -1,24 +1,52 @@
 { pkgs, ... }:
-{
-  environment.systemPackages = with pkgs; [
-    ack
-    bat
-    claude-code
-    circumflex
-    curl
-    fd
-    dust
-    zoxide
-    wget
-    tree
-    tldr
-    lsd
-    less
-    htop
+
+let
+  searchTools = with pkgs; [
     ripgrep
     silver-searcher
-    yazi
-    starship
+    ack
+    fd
     fzf
+    tldr
   ];
+
+  fileTools = with pkgs; [
+    lsd
+    tree
+    yazi
+    zoxide
+    chezmoi
+  ];
+
+  networkTools = with pkgs; [
+    curl
+    wget
+    httpie
+  ];
+
+  systemTools = with pkgs; [
+    btop
+    procs
+    dust
+  ];
+
+  viewingTools = with pkgs; [
+    bat
+    less
+    glow
+    jq
+  ];
+
+  shellTools = with pkgs; [
+    starship
+  ];
+
+  aiTools = with pkgs; [
+    claude-code
+    circumflex
+  ];
+in
+{
+  environment.systemPackages =
+    searchTools ++ fileTools ++ networkTools ++ systemTools ++ viewingTools ++ shellTools ++ aiTools;
 }
