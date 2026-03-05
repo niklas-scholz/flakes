@@ -9,5 +9,6 @@
     cargo
     nixfmt-rfc-style
     statix
+    uv
   ];
 }
