@@ -24,16 +24,12 @@ let
     postgresql
   ];
 
-  nixLinting = with pkgs; [
+  nixTools = with pkgs; [
     statix
+    nixfmt-rfc-style
   ];
 in
 {
   environment.systemPackages =
-    javascriptRuntimes
-    ++ pythonTools
-    ++ rustTools
-    ++ infrastructureTools
-    ++ databaseTools
-    ++ nixLinting;
+    javascriptRuntimes ++ pythonTools ++ rustTools ++ infrastructureTools ++ databaseTools ++ nixTools;
 }

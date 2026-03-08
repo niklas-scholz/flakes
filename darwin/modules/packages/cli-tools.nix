@@ -43,10 +43,20 @@ let
 
   aiTools = with pkgs; [
     claude-code
+  ];
+
+  otherTools = with pkgs; [
     circumflex
   ];
 in
 {
   environment.systemPackages =
-    searchTools ++ fileTools ++ networkTools ++ systemTools ++ viewingTools ++ shellTools ++ aiTools;
+    searchTools
+    ++ fileTools
+    ++ networkTools
+    ++ systemTools
+    ++ viewingTools
+    ++ shellTools
+    ++ aiTools
+    ++ otherTools;
 }
