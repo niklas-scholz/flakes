@@ -7,8 +7,8 @@
     nodejs
     tenv
     cargo
-    nixfmt-rfc-style
     statix
+    postgresql
     uv
   ];
 }
