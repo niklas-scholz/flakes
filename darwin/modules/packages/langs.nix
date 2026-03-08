@@ -1,14 +1,39 @@
 { pkgs, ... }:
-{
-  environment.systemPackages = with pkgs; [
+
+let
+  javascriptRuntimes = with pkgs; [
+    nodejs
     deno
     bun
-    terraformer
-    nodejs
-    tenv
-    cargo
-    statix
-    postgresql
+  ];
+
+  pythonTools = with pkgs; [
     uv
   ];
+
+  rustTools = with pkgs; [
+    cargo
+  ];
+
+  infrastructureTools = with pkgs; [
+    terraformer
+    tenv
+  ];
+
+  databaseTools = with pkgs; [
+    postgresql
+  ];
+
+  nixLinting = with pkgs; [
+    statix
+  ];
+in
+{
+  environment.systemPackages =
+    javascriptRuntimes
+    ++ pythonTools
+    ++ rustTools
+    ++ infrastructureTools
+    ++ databaseTools
+    ++ nixLinting;
 }

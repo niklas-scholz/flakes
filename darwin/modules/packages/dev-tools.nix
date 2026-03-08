@@ -1,19 +1,43 @@
 { pkgs, ... }:
+
+let
+  terminalTools = with pkgs; [
+    alacritty
+    tmux
+  ];
+
+  gitTools = with pkgs; [
+    git
+    gh
+    lazygit
+    delta
+  ];
+
+  devOpsTools = with pkgs; [
+    lazydocker
+    devpod
+    k9s
+  ];
+
+  editorTools = with pkgs; [
+    neovim
+  ];
+
+  dbTools = with pkgs; [
+    rainfrog
+  ];
+
+  brewGuiApps = [
+    "dbeaver-community"
+    "ghostty"
+    "visual-studio-code"
+    "kitty"
+    "freelens"
+  ];
+in
 {
   environment = {
-    systemPackages = with pkgs; [
-      alacritty
-      lazygit
-      lazydocker
-      neovim
-      tmux
-      devpod
-      gh
-      git
-      k9s
-      delta
-      rainfrog
-    ];
+    systemPackages = terminalTools ++ gitTools ++ devOpsTools ++ editorTools ++ dbTools;
 
     # Required for touch ID authentication to work in tmux
     etc."pam.d/sudo_local".text = ''
@@ -23,11 +47,7 @@
   };
 
   homebrew = {
-    casks = [
-      "dbeaver-community"
-      "ghostty"
-      "visual-studio-code"
-      "freelens"
-    ];
+    enable = true; # Ensure homebrew is enabled
+    casks = brewGuiApps;
   };
 }
