@@ -9,6 +9,10 @@
 
     home-manager.url = "github:nix-community/home-manager/release-25.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    nix-homebrew.url = "github:zhaofengli/nix-homebrew";
+    nix-homebrew.inputs.nixpkgs.follows = "nixpkgs";
+
+    llm-agents.url = "github:numtide/llm-agents.nix";
   };
 
   outputs =
@@ -17,6 +21,9 @@
       nix-darwin,
       nixpkgs,
       home-manager,
+      nix-homebrew,
+      llm-agents,
+      ...
     }:
     let
       mkConfiguration =
@@ -58,9 +65,11 @@
           ...
         }:
         nix-darwin.lib.darwinSystem {
+          specialArgs = { inherit llm-agents; };
           modules = [
             (mkConfiguration { inherit username; })
             minimalModules
+            nix-homebrew.darwinModules.nix-homebrew
             (mkHomeConfiguration {
               inherit home-manager;
               inherit username;

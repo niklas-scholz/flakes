@@ -10,6 +10,7 @@
       "bettertouchtool"
       "karabiner-elements"
       "raycast"
+      "logi-options+"
     ];
   };
 }

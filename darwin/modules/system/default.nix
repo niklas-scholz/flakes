@@ -11,6 +11,8 @@
   system.defaults.LaunchServices.LSQuarantine = false;
 
   system.defaults.NSGlobalDomain = {
+    AppleInterfaceStyle = "Dark";
+
     AppleShowScrollBars = "Always";
 
     # Disable automatic capitalization as it’s annoying when typing code

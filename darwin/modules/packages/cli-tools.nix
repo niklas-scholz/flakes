@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, llm-agents, ... }:
 
 let
   searchTools = with pkgs; [
@@ -41,8 +41,9 @@ let
     starship
   ];
 
-  aiTools = with pkgs; [
+  aiTools = with llm-agents.packages.${pkgs.stdenv.hostPlatform.system}; [
     claude-code
+    pi
   ];
 
   otherTools = with pkgs; [

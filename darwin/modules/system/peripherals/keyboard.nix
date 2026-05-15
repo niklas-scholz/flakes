@@ -10,6 +10,8 @@
     # Enable full keyboard access for all controls
     # (e.g. enable Tab in modal dialogs)
     AppleKeyboardUIMode = 3;
+
+    "com.apple.keyboard.fnState" = true;
   };
 
 }
