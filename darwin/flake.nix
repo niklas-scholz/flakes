@@ -12,7 +12,10 @@
     nix-homebrew.url = "github:zhaofengli/nix-homebrew";
     nix-homebrew.inputs.nixpkgs.follows = "nixpkgs";
 
-    llm-agents.url = "github:numtide/llm-agents.nix";
+    llm-agents.url = "github:numtide/llm-agents.nix/dbd0928ca24380fe62f485785f5fa097f45f4b50";
+
+    # Pinned solely to keep claude-code at 2.1.197.
+    llm-agents-claude-code.url = "github:numtide/llm-agents.nix/a56df1cdf52eac0b8aa255d8de09f7107a23bb2e";
   };
 
   outputs =
@@ -23,6 +26,7 @@
       home-manager,
       nix-homebrew,
       llm-agents,
+      llm-agents-claude-code,
       ...
     }:
     let
@@ -65,7 +69,7 @@
           ...
         }:
         nix-darwin.lib.darwinSystem {
-          specialArgs = { inherit llm-agents; };
+          specialArgs = { inherit llm-agents llm-agents-claude-code; };
           modules = [
             (mkConfiguration { inherit username; })
             minimalModules

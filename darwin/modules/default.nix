@@ -10,6 +10,7 @@
     enable = true;
     user = config.system.primaryUser;
     autoMigrate = true;
+    trust.taps = [ "nikitabobko/tap" ];
   };
 
   homebrew = {

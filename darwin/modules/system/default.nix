@@ -13,6 +13,8 @@
   system.defaults.NSGlobalDomain = {
     AppleInterfaceStyle = "Dark";
 
+    AppleICUForce24HourTime = true;
+
     AppleShowScrollBars = "Always";
 
     # Disable automatic capitalization as it’s annoying when typing code

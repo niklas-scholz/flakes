@@ -1,4 +1,9 @@
-{ pkgs, llm-agents, ... }:
+{
+  pkgs,
+  llm-agents,
+  llm-agents-claude-code,
+  ...
+}:
 
 let
   searchTools = with pkgs; [
@@ -41,10 +46,16 @@ let
     starship
   ];
 
-  aiTools = with llm-agents.packages.${pkgs.stdenv.hostPlatform.system}; [
-    claude-code
+  inherit (pkgs.stdenv.hostPlatform) system;
+
+  aiTools = [
+    llm-agents-claude-code.packages.${system}.claude-code
+  ]
+  ++ (with llm-agents.packages.${system}; [
     pi
-  ];
+    omp
+    opencode
+  ]);
 
   otherTools = with pkgs; [
     circumflex

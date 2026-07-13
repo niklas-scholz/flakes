@@ -45,8 +45,28 @@ let
     _fzf_compgen_path() { fd --hidden --follow . "$1"; }
     _fzf_compgen_dir() { fd --type d --hidden --follow . "$1"; }
   '';
+
+  zshScratchFns = ''
+    vt() {
+      mkdir -p "$HOME/scratch"
+      nvim "$(mktemp "$HOME/scratch/scratch.XXXXXX")"
+    }
+
+    vtl() {
+      mkdir -p "$HOME/scratch"
+      local file
+      file=$(fd . "$HOME/scratch" --type f | fzf --preview 'bat --color=always {}') || return
+      nvim "$file"
+    }
+  '';
 in
 {
+  xdg.enable = true;
+
+  home.sessionPath = [
+    "$HOME/.local/share/pnpm/bin"
+  ];
+
   programs = {
     zsh = {
       enable = true;
@@ -60,9 +80,9 @@ in
       };
 
       sessionVariables = {
+        PNPM_HOME = "$HOME/.local/share/pnpm";
         DELTA_PAGER = "less -R";
         EDITOR = "nvim";
-        K9S_CONFIG_DIR = "${config.home.homeDirectory}/.config/k9s";
       };
 
       initContent = lib.mkMerge [
@@ -71,6 +91,7 @@ in
         zshZvmAfterInit
         fzfGitSetup
         zshFzfCustoms
+        zshScratchFns
       ];
 
       shellAliases = {
