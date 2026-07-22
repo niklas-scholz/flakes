@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, brewUpgrade ? false, ... }:
 {
   imports = [
     ./system
@@ -15,5 +15,9 @@
 
   homebrew = {
     enable = true;
+    onActivation = {
+      autoUpdate = brewUpgrade;
+      upgrade = brewUpgrade;
+    };
   };
 }

@@ -64,12 +64,13 @@
       mkDarwinConfiguration =
         {
           username,
+          brewUpgrade ? builtins.getEnv "HOMEBREW_UPGRADE" == "1",
           extraModules ? [ ],
           extraHomeManagerConfiguration ? { },
           ...
         }:
         nix-darwin.lib.darwinSystem {
-          specialArgs = { inherit llm-agents llm-agents-claude-code; };
+          specialArgs = { inherit llm-agents llm-agents-claude-code brewUpgrade; };
           modules = [
             (mkConfiguration { inherit username; })
             minimalModules
