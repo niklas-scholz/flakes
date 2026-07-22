@@ -37,6 +37,11 @@ let
         eval "$(${pkgs.fzf}/bin/fzf --zsh)"
       fi
 
+      # Load atuin manually so its Ctrl-R binding wins over zsh-vi-mode
+      if [[ -x ${pkgs.atuin}/bin/atuin ]]; then
+        eval "$(${pkgs.atuin}/bin/atuin init zsh)"
+      fi
+
     }
   '';
 
@@ -140,6 +145,11 @@ in
     direnv = {
       enable = true;
       nix-direnv.enable = true;
+    };
+
+    atuin = {
+      enable = true;
+      enableZshIntegration = false; # handled manually to ensure compatibility with zsh-vi-mode
     };
 
     zoxide = {
