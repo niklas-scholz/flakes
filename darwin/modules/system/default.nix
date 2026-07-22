@@ -33,5 +33,9 @@
   networking.applicationFirewall.enable = true;
 
   # Enable touch ID authentication for sudo.
-  security.pam.services.sudo_local.touchIdAuth = true;
+  # reattach places pam_reattach before pam_tid.so so Touch ID works in tmux.
+  security.pam.services.sudo_local = {
+    touchIdAuth = true;
+    reattach = true;
+  };
 }

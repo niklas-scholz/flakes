@@ -38,12 +38,6 @@ in
 {
   environment = {
     systemPackages = terminalTools ++ gitTools ++ devOpsTools ++ editorTools ++ dbTools;
-
-    # Required for touch ID authentication to work in tmux
-    etc."pam.d/sudo_local".text = ''
-      # Managed by Nix Darwin
-      auth       optional       ${pkgs.pam-reattach}/lib/pam/pam_reattach.so ignore_ssh
-    '';
   };
 
   homebrew = {
