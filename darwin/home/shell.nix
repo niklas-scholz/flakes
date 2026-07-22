@@ -137,6 +137,11 @@ in
       changeDirWidgetCommand = "fd --type=d --hidden --strip-cwd-prefix --exclude .git";
     };
 
+    direnv = {
+      enable = true;
+      nix-direnv.enable = true;
+    };
+
     zoxide = {
       enable = true;
       enableZshIntegration = true;
