@@ -126,6 +126,8 @@ in
         lz = "lazygit";
         lzd = "lazydocker";
 
+        denv = "direnv exec . $SHELL";
+
       };
     };
 
@@ -145,6 +147,7 @@ in
     direnv = {
       enable = true;
       nix-direnv.enable = true;
+      enableZshIntegration = false;
     };
 
     atuin = {
