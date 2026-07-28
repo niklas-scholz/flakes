@@ -24,13 +24,11 @@ let
     source ${zshViModeSrc}
   '';
 
-  fzfGitSetup = ''
-    source ${fzfGitSrc}
-  '';
-
   zshZvmAfterInit = lib.mkOrder 1010 ''
     function zvm_after_init() {
       bindkey '\eg' fzf-cd-widget
+
+      source ${fzfGitSrc}
 
       # Load fzf integration manually (after zsh-vi-mode)
       if [[ -x ${pkgs.fzf}/bin/fzf ]]; then
@@ -94,7 +92,6 @@ in
         zshClipboardSetup
         zshViModeSetup
         zshZvmAfterInit
-        fzfGitSetup
         zshFzfCustoms
         zshScratchFns
       ];
