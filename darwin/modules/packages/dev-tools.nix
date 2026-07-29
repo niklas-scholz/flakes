@@ -10,7 +10,6 @@ let
     git
     gh
     lazygit
-    delta
   ];
 
   devOpsTools = with pkgs; [
@@ -25,6 +24,10 @@ let
 
   dbTools = with pkgs; [
     rainfrog
+    lazysql
+    (harlequin.overridePythonAttrs (old: {
+      dependencies = (old.dependencies or [ ]) ++ [ python3Packages.harlequin-postgres ];
+    }))
   ];
 
   brewGuiApps = [
