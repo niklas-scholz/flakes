@@ -10,6 +10,7 @@
       "vivaldi"
       "brave-browser"
       "sigmaos"
+      "thebrowsercompany-dia"
     ];
   };
 }
