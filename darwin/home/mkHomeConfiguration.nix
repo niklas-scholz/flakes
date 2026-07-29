@@ -25,6 +25,7 @@ let
     };
   };
   shellConfig = import ./shell.nix;
+  gitConfig = import ./git.nix;
 in
 {
   imports = [
@@ -37,6 +38,7 @@ in
         users.${username} = pkgs.lib.mkMerge [
           standardConfig
           shellConfig
+          gitConfig
           extraConfig
         ];
       };
