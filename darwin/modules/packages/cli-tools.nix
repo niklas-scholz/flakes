@@ -53,7 +53,6 @@ let
   ]
   ++ (with llm-agents.packages.${system}; [
     pi
-    omp
     opencode
   ]);
 

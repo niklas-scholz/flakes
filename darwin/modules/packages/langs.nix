@@ -26,7 +26,7 @@ let
 
   nixTools = with pkgs; [
     statix
-    nixfmt-rfc-style
+    nixfmt
   ];
 in
 {
