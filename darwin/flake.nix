@@ -11,8 +11,12 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nix-homebrew.url = "github:zhaofengli/nix-homebrew";
     nix-homebrew.inputs.nixpkgs.follows = "nixpkgs";
+    # nix-homebrew's default brew-src predates the `command_wrapper` cask DSL
+    # artifact, which the Homebrew JSON API now requires. Pin to a release that has it.
+    nix-homebrew.inputs.brew-src.url = "github:Homebrew/brew/6.0.21";
+    nix-homebrew.inputs.brew-src.flake = false;
 
-    llm-agents.url = "github:numtide/llm-agents.nix/dbd0928ca24380fe62f485785f5fa097f45f4b50";
+    llm-agents.url = "github:numtide/llm-agents.nix/0948ef0098ceb7b909e01ad0151ce0077b25d435";
 
     # Pinned solely to keep claude-code at 2.1.197.
     llm-agents-claude-code.url = "github:numtide/llm-agents.nix/a56df1cdf52eac0b8aa255d8de09f7107a23bb2e";
