@@ -12,7 +12,10 @@
   programs.git = {
     enable = true;
 
-    ignores = [ "**/.claude/settings.local.json" ];
+    ignores = [
+      "**/.claude/settings.local.json"
+      ".plans/"
+    ];
 
     lfs.enable = true;
 
