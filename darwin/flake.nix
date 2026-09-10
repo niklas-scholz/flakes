@@ -69,12 +69,13 @@
         {
           username,
           brewUpgrade ? builtins.getEnv "HOMEBREW_UPGRADE" == "1",
+          enableColima ? false,
           extraModules ? [ ],
           extraHomeManagerConfiguration ? { },
           ...
         }:
         nix-darwin.lib.darwinSystem {
-          specialArgs = { inherit llm-agents llm-agents-claude-code brewUpgrade; };
+          specialArgs = { inherit llm-agents llm-agents-claude-code brewUpgrade enableColima; };
           modules = [
             (mkConfiguration { inherit username; })
             minimalModules
