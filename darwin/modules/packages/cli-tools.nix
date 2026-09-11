@@ -1,7 +1,6 @@
 {
   pkgs,
   llm-agents,
-  llm-agents-claude-code,
   ...
 }:
 
@@ -48,13 +47,11 @@ let
 
   inherit (pkgs.stdenv.hostPlatform) system;
 
-  aiTools = [
-    llm-agents-claude-code.packages.${system}.claude-code
-  ]
-  ++ (with llm-agents.packages.${system}; [
+  aiTools = with llm-agents.packages.${system}; [
+    claude-code
     pi
     opencode
-  ]);
+  ];
 
   otherTools = with pkgs; [
     circumflex

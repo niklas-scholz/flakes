@@ -9,17 +9,18 @@
 
     home-manager.url = "github:nix-community/home-manager/release-26.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
-    nix-homebrew.url = "github:zhaofengli/nix-homebrew";
-    nix-homebrew.inputs.nixpkgs.follows = "nixpkgs";
-    # nix-homebrew's default brew-src predates the `command_wrapper` cask DSL
-    # artifact, which the Homebrew JSON API now requires. Pin to a release that has it.
-    nix-homebrew.inputs.brew-src.url = "github:Homebrew/brew/6.0.21";
-    nix-homebrew.inputs.brew-src.flake = false;
+    nix-homebrew = {
+      url = "github:zhaofengli/nix-homebrew";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        # nix-homebrew's default brew-src predates the `command_wrapper` cask DSL
+        # artifact, which the Homebrew JSON API now requires. Pin to a release that has it.
+        brew-src.url = "github:Homebrew/brew/6.0.21";
+        brew-src.flake = false;
+      };
+    };
 
-    llm-agents.url = "github:numtide/llm-agents.nix/0948ef0098ceb7b909e01ad0151ce0077b25d435";
-
-    # Pinned solely to keep claude-code at 2.1.197.
-    llm-agents-claude-code.url = "github:numtide/llm-agents.nix/a56df1cdf52eac0b8aa255d8de09f7107a23bb2e";
+    llm-agents.url = "github:numtide/llm-agents.nix/396894b83c286c9f091e9e19de5a856bb0c3c47f";
   };
 
   outputs =
@@ -30,7 +31,6 @@
       home-manager,
       nix-homebrew,
       llm-agents,
-      llm-agents-claude-code,
       ...
     }:
     let
@@ -75,7 +75,13 @@
           ...
         }:
         nix-darwin.lib.darwinSystem {
-          specialArgs = { inherit llm-agents llm-agents-claude-code brewUpgrade enableColima; };
+          specialArgs = {
+            inherit
+              llm-agents
+              brewUpgrade
+              enableColima
+              ;
+          };
           modules = [
             (mkConfiguration { inherit username; })
             minimalModules
