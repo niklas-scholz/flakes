@@ -73,6 +73,7 @@ in
   programs = {
     zsh = {
       enable = true;
+      dotDir = config.home.homeDirectory;
       enableCompletion = true;
       autosuggestion.enable = true;
       syntaxHighlighting.enable = true;
@@ -137,8 +138,8 @@ in
       enable = true;
       enableZshIntegration = false; # handled manually to ensure compatibility with zsh-vi-mode
       defaultCommand = "fd --hidden --strip-cwd-prefix";
-      fileWidgetCommand = "fd --hidden --strip-cwd-prefix";
-      changeDirWidgetCommand = "fd --type=d --hidden --strip-cwd-prefix --exclude .git";
+      fileWidget.command = "fd --hidden --strip-cwd-prefix";
+      changeDirWidget.command = "fd --type=d --hidden --strip-cwd-prefix --exclude .git";
     };
 
     direnv = {
@@ -159,6 +160,7 @@ in
 
     yazi = {
       enable = true;
+      shellWrapperName = "yy";
       enableZshIntegration = true;
     };
   };

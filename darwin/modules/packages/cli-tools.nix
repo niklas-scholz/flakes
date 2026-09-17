@@ -7,7 +7,7 @@
 let
   searchTools = with pkgs; [
     ripgrep
-    silver-searcher
+    silver-searcher-ng
     ack
     fd
     fzf

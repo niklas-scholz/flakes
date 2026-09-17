@@ -2,12 +2,12 @@
   description = "Nik's minimal nix-darwin config library for shared use";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-26.05-darwin";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 
-    nix-darwin.url = "github:LnL7/nix-darwin/nix-darwin-26.05";
+    nix-darwin.url = "github:LnL7/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
-    home-manager.url = "github:nix-community/home-manager/release-26.05";
+    home-manager.url = "github:nix-community/home-manager/master";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nix-homebrew = {
       url = "github:zhaofengli/nix-homebrew";
